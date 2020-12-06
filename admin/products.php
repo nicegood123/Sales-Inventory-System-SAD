@@ -83,6 +83,7 @@
                                             <th>Quantity</th>
                                             <th>Category</th>
                                             <th>Supplier</th>
+                                            <th>Date Registered</th>
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -91,7 +92,7 @@
                                     <?php
                                     try {
 
-                                        $query = "SELECT products.id, products.photo, products.name, products.QuantityInStock, category.name as 'category_name', supplier.name as 'supplier_name' FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id";
+                                        $query = "SELECT products.id, products.photo, products.name, products.QuantityInStock, category.name as 'category_name', supplier.name as 'supplier_name', products.date_registered FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id";
                                         $rows = $function->selectAll($query);
                                         foreach ($rows as $row) { ?>
 
@@ -104,6 +105,7 @@
                                             <td><?php echo $row['QuantityInStock']; ?></td>
                                             <td><?php echo $row['category_name']; ?></td>
                                             <td><?php echo $row['supplier_name']; ?></td>
+                                            <td><?php echo $row['date_registered']; ?></td>
                                             <td class="text-center js-sweetalert">
                                                 <button type="button" class="btn btn-info btn-xs waves-effect">
                                                     <i class="material-icons" style="font-size:1.6rem;" data-toggle="modal" data-target="#infoModal">info_outline</i>

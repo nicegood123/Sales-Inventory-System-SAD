@@ -51,17 +51,15 @@ try {
 		$function->update($query, $data);
 
 		//Deduct Product QuantityInStock
-		// $data = [
-		// 	'cart_code' => $cart_code,
-		// 	'user_id' => $user_id,
-		// 	'product_id' => $product_id
-		// ];
+		$query = "SELECT products.id, products.QuantityInStock, cart.quantity FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = ".$user_id." AND cart_code = ".$cart_code."";
 
-		// $cart = $function->searchInCart($data);
-		// $quantity = cart['quantity'];
-		// $query = "UPDATE products SET QuantityInStock = (QuantityInStock - :quantity) WHERE cart_code = :cart_code AND product_id = :product_id";
-		// $function->update($query, $data);
+		$rows = $function->selectAll($query);
+		foreach ($rows as $row) {
+			$data = ['quantity' => $row['quantity'], 'id' => $row['id']];
+			$query = "UPDATE products SET QuantityInStock = (QuantityInStock - :quantity) WHERE id = :id";
+			$function->update($query, $data);
 
+		}
 
 		header("Location: order-summary.php?order_id=$order_id");
 
