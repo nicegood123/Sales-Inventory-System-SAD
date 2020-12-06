@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<?php require '../application/controllers/admin/add-supplier.php'; ?>
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -79,11 +81,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                    <?php
+
+                                    try {
+                                        $query = "SELECT * FROM supplier ORDER BY name";
+                                        $rows = $function->selectAll($query);
+                                        foreach ($rows as $row) { ?>
+
                                         <tr>
-                                            <td>238922</td>
-                                            <td>Abdul Salsalani</td>
-                                            <td>Talomo Proper, Davao City</td>
-                                            <td>+639798562123</td>
+                                            <td><?php echo $row['id']; ?></td>
+                                            <td><?php echo $row['name']; ?></td>
+                                            <td><?php echo $row['address']; ?></td>
+                                            <td><?php echo $row['contact']; ?></td>
                                             <td class="text-center js-sweetalert">
                                                 <button type="button" class="btn btn-warning btn-xs waves-effect">
                                                     <i class="material-icons" style="font-size:1.6rem;" data-toggle="modal" data-target="#editModal">mode_edit</i>
@@ -93,6 +103,16 @@
                                                 </button>
                                             </td>
                                         </tr>
+
+
+                                    <?php
+                                        }
+                                    } catch (PDOException $e) {
+                                        echo "There is some problem in connection: " . $e->getMessage();
+                                    }
+
+                                    ?>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -108,34 +128,34 @@
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form>
+                <form method="post">
                     <div class="modal-header">
                         <h4 class="modal-title" id="defaultModalLabel">Add Supplier</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group form-float">
                             <div class="form-line">
-                                <input type="text" id="name" class="form-control">
+                                <input type="text" id="name" name="name" class="form-control">
                                 <label class="form-label">Name</label>
                             </div>
                         </div>
                         <div class="form-group form-float">
                             <div class="form-line">
-                                <textarea rows="1" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
+                                <textarea rows="1" name="address" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
                                 <label class="form-label">Address</label>
                             </div>
                         </div>
                         
                         <div class="form-group form-float">
                             <div class="form-line">
-                                <input type="text" id="address" class="form-control">
+                                <input type="text" id="address" name="contact" class="form-control">
                                 <label class="form-label">Phone Number</label>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                        <button type="button" class="btn btn-info waves-effect">ADD</button>
+                        <button type="submit" name="add-supplier" class="btn btn-info waves-effect">ADD</button>
                     </div>
                 </form>
             </div>

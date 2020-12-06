@@ -58,7 +58,6 @@
 				</div>
 			</div>
 
-
 			<div class="row bg-white mt-5">
 				<div class="cart-detail p-3 p-md-4 contact-form">
 					<h3 class="billing-heading">List of Orders</h3>

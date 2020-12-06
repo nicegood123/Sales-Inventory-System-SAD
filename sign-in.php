@@ -29,7 +29,7 @@
         <div class="col-md-7 d-flex">
           <div class="cart-detail bg-white p-3 p-md-4" style="background-image: url('images/login-image.jpg');background-size: cover;">
             <h3 class="mb-4 text-center mt-2" style="color: #e4e8ec; font-weight: bolder;">
-              Welcome to Gisan Online Guitar Store
+              Welcome to XYT Online Store
             </h3>
           </div>
         </div>
@@ -49,9 +49,9 @@
             </div>
             <div class="form-group">
               <p class="breadcrumbs text-center">
-                New to our Shop? 
                 <span class="mr-2">
-                  <a href="sign-up.php">Create Account</a>
+                  <a href="sign-up.php">Create Account</a> | 
+                  <a href="admin">Forgot Password?</a>
                 </span>
               </p>
             </div>

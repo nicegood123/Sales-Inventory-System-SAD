@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿<?php require '../application/controllers/admin/add-product.php'; ?>
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -84,12 +86,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
+                                    <?php
+                                    try {
+                                        $query = "SELECT * FROM products ORDER BY name";
+                                        $rows = $function->selectAll($query);
+                                        foreach ($rows as $row) { ?>
+
                                         <tr>
-                                            <td>238922</td>
+                                            <td><?php echo $row['id']; ?></td>
                                             <td class="text-center">
-                                                <img src="images/user.png" width="70" height="70" />
+                                                <img src="../images/products/<?php echo $row['photo']; ?>" width="70" height="70" />
                                             </td>
-                                            <td>Shabun Panlaba</td>
+                                            <td><?php echo $row['name']; ?></td>
                                             <td>Drumgs</td>
                                             <td>Secret</td>
                                             <td class="text-center js-sweetalert">
@@ -104,6 +113,15 @@
                                                 </button>
                                             </td>
                                         </tr>
+
+                                    <?php
+                                        }
+                                    } catch (PDOException $e) {
+                                        echo "There is some problem in connection: " . $e->getMessage();
+                                    }
+
+                                    ?>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -119,7 +137,7 @@
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form>
+                <form method="post" id="add_product_form" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title" id="defaultModalLabel">Add Product</h4>
                     </div>

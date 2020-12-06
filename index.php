@@ -160,16 +160,6 @@
 		</div>
 	</section>
 
-	<section class="ftco-section ftco-section-more img" style="background-image: url(images/banner.jpg);">
-		<div class="container">
-			<div class="row justify-content-center mb-3 pb-3">
-				<div class="col-md-12 heading-section ftco-animate">
-					<h2>Summer Sale</h2>
-				</div>
-			</div>
-		</div>
-	</section>
-
 	<section class="ftco-section testimony-section bg-light">
 		<div class="container">
 			<div class="row justify-content-center mb-3 pb-3">
@@ -184,17 +174,17 @@
 							<div class="carousel-testimony owl-carousel ftco-owl">
 								<div class="item">
 									<div class="testimony-wrap py-4 pb-5">
-										<div class="user-img mb-4" style="background-image: url(images/profile/person_4.jpg)">
+										<div class="user-img mb-4" style="background-image: url(images/profile/person_5.jpg)">
 											<span class="quote d-flex align-items-center justify-content-center">
 												<i class="icon-quote-left"></i>
 											</span>
 										</div>
 										<div class="text text-center">
-											<p class="name">Gisan Geff Raniego</p>
+											<p class="name">Xyril Yee Te</p>
 											<ul class="ftco-footer-social list-unstyled mt-5">
 												<li class="ftco-animate"><a><span class="icon-twitter"></span></a></li>
-												<li class="ftco-animate"><a href="www.facebook.com/gisangeff.raniego"><span class="icon-facebook"></span></a></li>
-												<li class="ftco-animate"><a href="instagram.com/gisangeff"><span class="icon-instagram"></span></a></li>
+												<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+												<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
 											</ul>
 										</div>
 									</div>
