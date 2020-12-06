@@ -1,4 +1,24 @@
-﻿<?php require '../application/controllers/admin/add-supplier.php'; ?>
+﻿<?php 
+
+require '../application/config/connection.php';
+require_once '../application/config/functions.php';
+require '../application/controllers/admin/add-supplier.php';
+
+
+if (isset($_POST['delete-supplier'])) {
+
+    $data = ['id' => $_GET['id']];
+  
+    $query = "DELETE FROM supplier WHERE id = :id";
+    $function->delete($query, $data);
+  
+    $query = "UPDATE products SET supplier_id = 0 WHERE supplier_id = :id";
+    $function->update($query, $data);
+  
+  }
+
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -85,7 +105,7 @@
                                     <?php
 
                                     try {
-                                        $query = "SELECT * FROM supplier ORDER BY name";
+                                        $query = "SELECT * FROM supplier WHERE id != 0";
                                         $rows = $function->selectAll($query);
                                         foreach ($rows as $row) { ?>
 
@@ -95,12 +115,14 @@
                                             <td><?php echo $row['address']; ?></td>
                                             <td><?php echo $row['contact']; ?></td>
                                             <td class="text-center js-sweetalert">
-                                                <button type="button" class="btn btn-warning btn-xs waves-effect">
-                                                    <i class="material-icons" style="font-size:1.6rem;" data-toggle="modal" data-target="#editModal">mode_edit</i>
+                                                <button data-toggle="modal" data-target="#editModal_<?php echo $row['id']; ?>" class="btn btn-warning btn-xs waves-effect">
+                                                    <i class="material-icons" style="font-size:1.6rem;">mode_edit</i>
                                                 </button>
-                                                <button type="button" class="btn btn-danger btn-xs waves-effect" data-toggle="modal" data-target="#deleteModal">
+                                                <button type="button" class="btn btn-danger btn-xs waves-effect" data-toggle="modal" data-target="#deleteModal_<?php echo $row['id']; ?>">
                                                     <i class="material-icons" style="font-size:1.6rem;">delete</i>
                                                 </button>
+                              
+                                                <?php include 'supplier-modal.php'; ?>
                                             </td>
                                         </tr>
 
@@ -156,65 +178,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
                         <button type="submit" name="add-supplier" class="btn btn-info waves-effect">ADD</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Supplier Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <form>
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="defaultModalLabel">Edit Supplier</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group form-float">
-                            <div class="form-line">
-                                <input type="text" id="name" class="form-control">
-                                <label class="form-label">Name</label>
-                            </div>
-                        </div>
-                        <div class="form-group form-float">
-                            <div class="form-line">
-                                <textarea rows="1" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
-                                <label class="form-label">Address</label>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group form-float">
-                            <div class="form-line">
-                                <input type="text" id="address" class="form-control">
-                                <label class="form-label">Phone Number</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                        <button type="button" class="btn btn-info waves-effect">SAVE CHANGES</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Supplier Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <form>
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="defaultModalLabel">Delete</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete this data?</p>
-                       
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-info waves-effect">Yes</button>
                     </div>
                 </form>
             </div>

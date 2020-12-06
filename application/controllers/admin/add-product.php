@@ -1,8 +1,5 @@
 <?php
 
-require '../application/config/connection.php';
-require_once '../application/config/functions.php';
-
 session_start();
 date_default_timezone_set('Asia/Manila');
 

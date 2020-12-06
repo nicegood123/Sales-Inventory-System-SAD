@@ -1,7 +1,8 @@
-<?php require '../application/config/connection.php'; ?>
-<?php require_once '../application/config/functions.php'; ?>
-<?php require '../application/controllers/admin/add-category.php'; ?>
 <?php 
+
+require '../application/config/connection.php';
+require_once '../application/config/functions.php';
+require '../application/controllers/admin/add-category.php';
 
 if (isset($_POST['delete-category'])) {
 
@@ -10,7 +11,8 @@ if (isset($_POST['delete-category'])) {
   $query = "DELETE FROM category WHERE id = :id";
   $function->delete($query, $data);
 
-  header('location:category.php');
+  $query = "UPDATE products SET category_id = 0 WHERE category_id = :id";
+  $function->update($query, $data);
 
 }
 
@@ -99,7 +101,7 @@ if (isset($_POST['delete-category'])) {
                                     <?php
 
                                     try {
-                                        $query = "SELECT * FROM category";
+                                        $query = "SELECT * FROM category WHERE id != 0";
                                         $rows = $function->selectAll($query);
                                         foreach ($rows as $row) { ?>
 
