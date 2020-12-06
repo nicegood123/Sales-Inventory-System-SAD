@@ -1,4 +1,5 @@
 <?php
+
 require '../application/config/connection.php';
 require_once '../application/config/functions.php';
 
@@ -9,39 +10,44 @@ if (isset($_SESSION['is_logged_in'])) {
   header('Location:index.php');
 }
 
-$message = "";
+if(isset($_POST['add-product'])) {
 
-if(isset($_POST['add-supplier'])) {
-
-  $id = $function->setID('id', 'supplier');
   $name = $_POST['name'];
-  $address = $_POST['address'];
-  $contact = $_POST['contact'];
+  $description = $_POST['description'];
+  $price = $_POST['price'];
+  $quantity = $_POST['quantity'];
+  $category_id = $_POST['category'];
+  $supplier_id = $_POST['supplier'];
+  $photo = $_FILES['photo']['name'];
 
-  $data = [
-    'id' => $id,
-    'name' => $name,
-    'address' => $address,
-    'contact' => $contact
-  ];
+  $folder = '../images/products/';
+  $path = $folder . $photo;
+  $target_file = $folder.basename($photo);
+  $FileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
-  try {
-    $query = "INSERT INTO supplier (id, name, address, contact) VALUES (:id, :name, :address, :contact)";
+  $allowed = array('jpeg', 'png', 'jpg');
+  $filename = $photo;
+
+  $extension = pathinfo($filename, PATHINFO_EXTENSION);
+  if(!in_array($extension, $allowed)) {
+    echo 'Invalid file type.';
+  } else {
+    move_uploaded_file( $_FILES['photo']['tmp_name'], $path); 
+
+    $data = [
+      'name' => $name, 
+      'price' => $price, 
+      'QuantityInStock' => $quantity, 
+      'category_id' => $category_id, 
+      'supplier_id' => $supplier_id, 
+      'photo' => $photo
+    ];
+
+    $query = "INSERT INTO products (name, price, QuantityInStock, category_id, supplier_id, photo, date_registered) VALUES (:name, :price, :QuantityInStock, :category_id, :supplier_id, :photo, now())";
     $function->insert($query, $data);
 
-    $message = '
-    <div class="col-md-10 bs-callout bs-callout-success">
-    <h4 id="title">Registration Successful</h4>
-    Thanks! Supplier has been successfully added.
-    </div>
-    ';
-  } catch (Exception $e) {
-    $message = '
-    <div class="col-md-10 bs-callout bs-callout-danger">
-    <h4>Registration Failed</h4>
-    Wala na add si supplier. huhu
-    </div>
-    ';
   }
 
 }
+
+?>

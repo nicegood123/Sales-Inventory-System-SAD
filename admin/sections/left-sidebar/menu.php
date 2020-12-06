@@ -19,5 +19,11 @@
                             <span>Suppliers</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="category.php">
+                            <i class="material-icons">text_fields</i>
+                            <span>Category</span>
+                        </a>
+                    </li>
                 </ul>
             </div>

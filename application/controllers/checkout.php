@@ -50,6 +50,19 @@ try {
 		$query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 0";
 		$function->update($query, $data);
 
+		//Deduct Product QuantityInStock
+		// $data = [
+		// 	'cart_code' => $cart_code,
+		// 	'user_id' => $user_id,
+		// 	'product_id' => $product_id
+		// ];
+
+		// $cart = $function->searchInCart($data);
+		// $quantity = cart['quantity'];
+		// $query = "UPDATE products SET QuantityInStock = (QuantityInStock - :quantity) WHERE cart_code = :cart_code AND product_id = :product_id";
+		// $function->update($query, $data);
+
+
 		header("Location: order-summary.php?order_id=$order_id");
 
 	}
