@@ -12,6 +12,43 @@ if (isset($_POST['delete-product'])) {
   $function->delete($query, $data);
 
 }
+
+if (isset($_POST['edit-product'])) {
+
+    $id = $_GET['id'];
+    $photo_info = PATHINFO($_FILES["photo"]["name"]);
+
+    if (empty($photo_info)){
+		$location=$product['photo'];
+    }
+    
+	else {
+		if ($photo_info['extension'] == "jpg" OR $photo_info['extension'] == "png") {
+			$newFilename = $photo_info['filename'] . "_" . time() . "." . $photo_info['extension'];
+			move_uploaded_file($_FILES["photo"]["tmp_name"], "../images/products/" . $newFilename);
+			$location = $newFilename;
+		}
+		else{
+			$location=$prow['photo'];
+			echo 'Invalid file type.';
+                    
+		}
+	}
+
+    $data = [
+        'name' => $_POST['name'],
+        'description' => $_POST['description'],
+        'price' => $_POST['price'],
+        'category_id' => $_POST['category'],
+        'supplier_id' => $_POST['supplier'],
+        'photo' => $location,
+        'id' => $id
+    ];
+  
+    $query = "UPDATE products SET name = :name, description = :description, price = :price, category_id = :category_id, supplier_id = :supplier_id, photo = :photo WHERE id = :id";
+    $function->update($query, $data);
+  
+  }
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +66,7 @@ if (isset($_POST['delete-product'])) {
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
     
     <!-- Font Awesome Fonts -->
-    <link href="fonts/fontawesome-free-5.15.1/css/all.css" rel="stylesheet">
+    <link href="../fonts/fontawesome-free/css/all.min.css" rel="stylesheet">
 
     <!-- Bootstrap Core Css -->
     <link href="plugins/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -163,32 +200,32 @@ if (isset($_POST['delete-product'])) {
                         <h4 class="modal-title" id="defaultModalLabel">Add Product</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group form-float">
+                        <label class="form-label">Name</label>
+                        <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="name" name="name" class="form-control">
-                                <label class="form-label">Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter product name" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
                             <div class="form-line">
-                                <textarea rows="1" name="description" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
-                                <label class="form-label">Description</label>
+                                <textarea rows="1" name="description" placeholder="Enter product description" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
+                            <label class="form-label">Price</label>
                             <div class="form-line">
-                                <input type="text" name="price" class="form-control">
-                                <label class="form-label">Price</label>
+                                <input type="text" name="price" placeholder="Enter product price" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
+                            <label class="form-label">Quantity</label>
                             <div class="form-line">
-                                <input type="text" name="quantity" class="form-control">
-                                <label class="form-label">Quantity</label>
+                                <input type="text" name="quantity" placeholder="Enter product  quantity" class="form-control">
                             </div>
                         </div>
-                        <label class="form-label">Category</label>
-                        <div class="form-line">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
                             <select name="category" class="form-control show-tick">
                                 <?php
                                     $query = "SELECT * FROM category";
@@ -200,7 +237,7 @@ if (isset($_POST['delete-product'])) {
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <label class="form-label">Supplier</label>
                             <select name="supplier" class="form-control show-tick">
                                 <?php
@@ -213,7 +250,7 @@ if (isset($_POST['delete-product'])) {
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <label class="form-label">Image</label>
                             <input type="file" name="photo" class="form-control">
                         </div>

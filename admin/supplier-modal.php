@@ -1,35 +1,34 @@
+<?php $supplier = $function->getData('supplier', 'id', $row['id']); ?>
+    
     <!-- Edit Supplier Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal fade" id="editModal_<?php echo $row['id']; ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form>
+                <form method="post" action="<?php echo '?id='. $row['id']; ?>" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title" id="defaultModalLabel">Edit Supplier</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="name" class="form-control">
-                                <label class="form-label">Name</label>
+                                <input type="text" name="name" value="<?php echo $supplier['name']; ?>" placeholder="Enter supplier name" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="1" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
-                                <label class="form-label">Address</label>
+                                <textarea rows="1" name="address" placeholder="Enter supplier address"class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"><?php echo $supplier['address']; ?></textarea>
                             </div>
                         </div>
                         
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="address" class="form-control">
-                                <label class="form-label">Phone Number</label>
+                                <input type="text" name="contact" value="<?php echo $supplier['contact']; ?>" placeholder="Enter supplier phone number" class="form-control">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                        <button type="button" class="btn btn-info waves-effect">SAVE CHANGES</button>
+                        <button type="submit" name="edit-supplier" class="btn btn-info waves-effect">SAVE CHANGES</button>
                     </div>
                 </form>
             </div>

@@ -1,62 +1,62 @@
+<?php $product = $function->getData('products', 'id', $row['id']); ?>
+
     <!-- Edit Product Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document">
+    <div class="modal fade" id="editModal_<?php echo $row['id']; ?>" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form>
+                <form method="post" action="<?php echo '?id='. $row['id']; ?>" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title" id="defaultModalLabel">Edit Product</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="name" class="form-control">
-                                <label class="form-label">Name</label>
+                                <input type="text" id="name" name="name" value="<?php echo $product['name']; ?>" placeholder="Enter product name" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <textarea rows="1" class="form-control no-resize auto-growth" style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
-                                <label class="form-label">Description</label>
+                                <input type="text" name="description" value="<?php echo $product['description']; ?>" placeholder="Enter product description" class="form-control">
+
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="price" class="form-control">
-                                <label class="form-label">Price</label>
+                                <input type="text" name="price" value="<?php echo $product['price']; ?>" placeholder="Enter product price" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group form-float">
+                        <div class="form-group">
                             <div class="form-line">
-                                <input type="text" id="price" class="form-control">
-                                <label class="form-label">Quantity</label>
+                                <input type="text" name="quantity" value="<?php echo $product['QuantityInStock']; ?>" placeholder="Enter product  quantity" class="form-control">
                             </div>
                         </div>
-                        <div class="form-group form-float">
-                            <div class="form-line">
-                                <select class="form-control show-tick">
-                                    <option>Category</option>
-                                    <option value="10">Motorcycle Parts</option>
-                                    <option value="20">Auto Parts</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <select name="category" class="form-control show-tick">
+                                <?php
+                                    $query = "SELECT * FROM category";
+                                    $rows = $function->selectAll($query);
+                                    foreach ($rows as $row): ?>
+                                        <option value="<?php echo $row['id']; ?>" <?php if($row['id']==$product['category_id']) echo 'selected="selected"'; ?>><?php echo $row['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div class="form-group form-float">
-                            <div class="form-line">
-                                <select class="form-control show-tick">
-                                    <option>Supplier</option>
-                                    <option value="">Galaxy and Global hardwares</option>
-                                    <option value="">SamYa</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <select name="supplier" class="form-control show-tick">
+                                <?php
+                                    $query = "SELECT * FROM supplier";
+                                    $rows = $function->selectAll($query);
+                                    foreach ($rows as $row): ?>
+                                        <option value="<?php echo $row['id']; ?>" <?php if($row['id']==$product['supplier_id']) echo 'selected="selected"'; ?>><?php echo $row['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
-                        <div class="form-group form-float">
-                            <label class="form-label">Image</label>
-                            <input type="file" class="form-control" id="customFile">
+                        <div class="form-group">
+                            <input type="file" name="photo" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
-                        <button type="button" class="btn btn-info waves-effect">SAVE CHANGES</button>
+                        <input type="submit" name="edit-product" class="btn btn-info waves-effect" value="ADD">
                     </div>
                 </form>
             </div>

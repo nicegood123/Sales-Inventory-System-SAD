@@ -9,7 +9,7 @@
                     </li>
                     <li>
                         <a href="products.php">
-                            <i class="material-icons">text_fields</i>
+                            <i class="material-icons">list</i>
                             <span>Products</span>
                         </a>
                     </li>

@@ -16,6 +16,20 @@ if (isset($_POST['delete-category'])) {
 
 }
 
+if (isset($_POST['edit-category'])) {
+
+    $id = $_GET['id'];
+
+    $data = [
+        'id' => $id,
+        'name' => $_POST['name']
+    ];
+  
+    $query = "UPDATE category SET name = :name WHERE id = :id";
+    $function->update($query, $data);
+  
+  }
+
 ?>
 
 <!DOCTYPE html>

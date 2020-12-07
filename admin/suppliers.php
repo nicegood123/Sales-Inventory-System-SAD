@@ -18,6 +18,23 @@ if (isset($_POST['delete-supplier'])) {
   }
 
 
+if (isset($_POST['edit-supplier'])) {
+
+    $id = $_GET['id'];
+
+    $data = [
+        'id' => $id,
+        'name' => $_POST['name'],
+        'address' => $_POST['address'],
+        'contact' => $_POST['contact']
+    ];
+  
+    $query = "UPDATE supplier SET name = :name, address = :address, contact = :contact WHERE id = :id";
+    $function->update($query, $data);
+  
+  }
+
+
 ?>
 
 <!DOCTYPE html>

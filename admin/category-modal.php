@@ -1,15 +1,17 @@
+<?php $category = $function->getData('category', 'id', $row['id']); ?>
+
 <!-- Edit Category Modal -->
     <div class="modal fade" id="editModal_<?php echo $row['id']; ?>" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form method="post">
+                <form method="post" action="<?php echo '?id='. $row['id']; ?>" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title" id="defaultModalLabel">Edit Category</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group form-float">
                             <div class="form-line">
-                                <input type="text" name="name" value="<?php echo $row['name']; ?>" class="form-control">
+                                <input type="text" name="name" value="<?php echo $category['name']; ?>" class="form-control">
                                 <label class="form-label">Name</label>
                             </div>
                         </div>
