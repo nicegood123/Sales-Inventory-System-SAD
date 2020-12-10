@@ -22,6 +22,11 @@ if(isset($_POST['add-product'])) {
   $target_file = $directory.basename($photo);
   $FileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
+
+  if(empty($photo)) {
+    $photo = 'default.png';
+  }
+
   $allowed = array('jpeg', 'png', 'jpg');
   $filename = $photo;
 

@@ -26,10 +26,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="category.php">
-                            <i class="material-icons">text_fields</i>
+                        <a href="javascript:void(0);" class="menu-toggle">
+                            <i class="material-icons">swap_calls</i>
                             <span>Users</span>
                         </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="#">Employees</a>
+                            </li>
+                            <li>
+                                <a href="#">Customers</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="javascript:void(0);" class="menu-toggle">

@@ -93,7 +93,7 @@
                                     <?php
                                     try {
 
-                                        $query = "SELECT products.id, products.photo, products.name, products.price, products.QuantityInStock, products.QuantitySold, supplier.name as 'supplier_name', category.name as 'category_name', products.date_added FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id";
+                                        $query = "SELECT products.id, products.name, products.price, products.QuantityInStock, products.QuantitySold, supplier.name as 'supplier_name', category.name as 'category_name', products.date_added FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id WHERE products.QuantityInStock > 0";
                                         $rows = $function->selectAll($query);
                                         foreach ($rows as $row) { ?>
 
