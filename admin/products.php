@@ -15,25 +15,30 @@ if (isset($_POST['delete-product'])) {
 
 if (isset($_POST['edit-product'])) {
 
-    $id = $_GET['id'];
-    $photo_info = PATHINFO($_FILES["photo"]["name"]);
 
-    if (empty($photo_info)){
-		$location=$product['photo'];
+
+    $id = $_GET['id'];
+    $photo = $_FILES["photo"]["name"];
+    $product = $function->getData('products', 'id', $id);
+
+    $directory = '../images/products/';
+    $path = $directory . $photo;
+    $target_file = $directory.basename($photo);
+    $FileType = pathinfo($target_file, PATHINFO_EXTENSION);
+
+    $allowed = array('jpeg', 'png', 'jpg');
+    $filename = $photo;
+
+    if (empty($photo)){
+		$photo = $product['photo'];
+    } else {
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        if(!in_array($extension, $allowed)) {
+          echo 'Invalid file type.';
+        } else {
+          move_uploaded_file( $_FILES['photo']['tmp_name'], $path); 
+        }
     }
-    
-	else {
-		if ($photo_info['extension'] == "jpg" OR $photo_info['extension'] == "png") {
-			$newFilename = $photo_info['filename'] . "_" . time() . "." . $photo_info['extension'];
-			move_uploaded_file($_FILES["photo"]["tmp_name"], "../images/products/" . $newFilename);
-			$location = $newFilename;
-		}
-		else{
-			$location=$prow['photo'];
-			echo 'Invalid file type.';
-                    
-		}
-	}
 
     $data = [
         'name' => $_POST['name'],
@@ -41,13 +46,12 @@ if (isset($_POST['edit-product'])) {
         'price' => $_POST['price'],
         'category_id' => $_POST['category'],
         'supplier_id' => $_POST['supplier'],
-        'photo' => $location,
+        'photo' => $photo,
         'id' => $id
     ];
   
     $query = "UPDATE products SET name = :name, description = :description, price = :price, category_id = :category_id, supplier_id = :supplier_id, photo = :photo WHERE id = :id";
     $function->update($query, $data);
-  
   }
 ?>
 

@@ -17,9 +17,9 @@ if(isset($_POST['add-product'])) {
   $supplier_id = $_POST['supplier'];
   $photo = $_FILES['photo']['name'];
 
-  $folder = '../images/products/';
-  $path = $folder . $photo;
-  $target_file = $folder.basename($photo);
+  $directory = '../images/products/';
+  $path = $directory . $photo;
+  $target_file = $directory.basename($photo);
   $FileType = pathinfo($target_file, PATHINFO_EXTENSION);
 
   $allowed = array('jpeg', 'png', 'jpg');
