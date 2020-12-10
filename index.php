@@ -46,7 +46,7 @@
 						<?php
 
 						try {
-							$query = "SELECT * FROM products ORDER BY date_registered DESC LIMIT 6";
+							$query = "SELECT * FROM products ORDER BY date_added DESC LIMIT 6";
 							$rows = $function->selectAll($query);
 							foreach ($rows as $row) { ?>
 								<div class="item">

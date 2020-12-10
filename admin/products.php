@@ -132,7 +132,7 @@ if (isset($_POST['edit-product'])) {
                         </div>
                         <div class="body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                                <table class="table table-bordered table-striped table-hover dataTable js-exportable" id="products-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -152,7 +152,7 @@ if (isset($_POST['edit-product'])) {
                                     <?php
                                     try {
 
-                                        $query = "SELECT products.id, products.photo, products.name, products.price, products.QuantityInStock, products.QuantitySold, supplier.name as 'supplier_name', category.name as 'category_name', products.date_registered FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id";
+                                        $query = "SELECT products.id, products.photo, products.name, products.price, products.QuantityInStock, products.QuantitySold, supplier.name as 'supplier_name', category.name as 'category_name' FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id";
                                         $rows = $function->selectAll($query);
                                         foreach ($rows as $row) { ?>
 
@@ -325,6 +325,19 @@ if (isset($_POST['edit-product'])) {
             $('#editModal').show();
         })
     </script>
+    <script>
+        $(document).ready(function() {
+            $('products-table').DataTable({
+                dom: 'Bfrtip',
+                buttons: [{
+                    extends:'pdf',
+                    title: 'Customized PDF title',
+                    filename: 'Customized_pdf_FILE_Nmae'
+                }]
+            });
+        });    
+    </script>
+
 
 </body>
 

@@ -38,7 +38,7 @@
                         </a>
                         <ul class="ml-menu">
                             <li>
-                                <a href="#">Invetory Report</a>
+                                <a href="inventory-report.php">Invetory Report</a>
                             </li>
                             <li>
                                 <a href="#">Sales Report</a>

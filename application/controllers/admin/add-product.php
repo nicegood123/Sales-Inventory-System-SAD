@@ -40,7 +40,7 @@ if(isset($_POST['add-product'])) {
       'photo' => $photo
     ];
 
-    $query = "INSERT INTO products (name, price, QuantityInStock, category_id, supplier_id, photo, date_registered) VALUES (:name, :price, :QuantityInStock, :category_id, :supplier_id, :photo, now())";
+    $query = "INSERT INTO products (name, price, QuantityInStock, category_id, supplier_id, photo, date_added) VALUES (:name, :price, :QuantityInStock, :category_id, :supplier_id, :photo, now())";
     $function->insert($query, $data);
 
   }
