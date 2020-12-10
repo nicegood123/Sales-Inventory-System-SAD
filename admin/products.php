@@ -44,13 +44,16 @@ if (isset($_POST['edit-product'])) {
         'name' => $_POST['name'],
         'description' => $_POST['description'],
         'price' => $_POST['price'],
+        ':quantity' => $_POST['quantity'],
         'category_id' => $_POST['category'],
         'supplier_id' => $_POST['supplier'],
         'photo' => $photo,
         'id' => $id
     ];
   
-    $query = "UPDATE products SET name = :name, description = :description, price = :price, category_id = :category_id, supplier_id = :supplier_id, photo = :photo WHERE id = :id";
+    $query = "UPDATE products SET name = :name, description = :description, price = :price, 
+            QuantityInStock = :quantity, category_id = :category_id, supplier_id = :supplier_id, 
+            photo = :photo WHERE id = :id";
     $function->update($query, $data);
   }
 ?>
@@ -136,9 +139,11 @@ if (isset($_POST['edit-product'])) {
                                             <th>Image</th>
                                             <th>Product Name</th>
                                             <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Sold</th>
                                             <th>Supplier</th>
                                             <th>Category</th>
-                                            <th>Date Registered</th>
+
                                             <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
@@ -158,9 +163,14 @@ if (isset($_POST['edit-product'])) {
                                             </td>
                                             <td><?php echo $row['name']; ?></td>
                                             <td><?php echo $row['price']; ?></td>
+                                            <td>
+                                                <span class="label bg-<?php echo ($row['QuantityInStock']<=30) ? 'red' : 'green'; ?>">
+                                                    <?php echo $row['QuantityInStock']; ?>
+                                                </span>    
+                                            </td>
+                                            <td><?php echo $row['QuantitySold']; ?></td>
                                             <td><?php echo $row['supplier_name']; ?></td>
                                             <td><?php echo $row['category_name']; ?></td>
-                                            <td><?php echo $row['date_registered']; ?></td>
                                             <td class="text-center js-sweetalert">
                                                 <button type="button" class="btn btn-info btn-xs waves-effect">
                                                     <i class="material-icons" style="font-size:1.6rem;" data-toggle="modal" data-target="#infoModal">info_outline</i>

@@ -30,6 +30,14 @@ class functions extends connection {
 
 	}
 
+
+	function getRow($query, $data) {
+		$statement = $this->connect()->prepare($query);
+		$statement->execute($data);
+		return $statement->fetch();
+
+	}
+
 	function getData($table_name, $column_id, $id) {
 		$query = "SELECT * FROM $table_name WHERE $column_id = :id";
 		$statement = $this->connect()->prepare($query);

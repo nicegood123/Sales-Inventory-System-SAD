@@ -40,6 +40,8 @@ try {
 			'ordered_date' => $ordered_date,
 		];
 
+
+		//Add order
 		$query = "INSERT INTO orders (order_id, user_id, contact, address, total, ordered_date) VALUES (:order_id, :user_id, :contact, :address, :total, :ordered_date)";
 		$function->insert($query, $data);
 
@@ -50,13 +52,24 @@ try {
 		$query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 0";
 		$function->update($query, $data);
 
-		//Deduct Product QuantityInStock
+		//Update Product QuantityInStock
 		$query = "SELECT products.id, products.QuantityInStock, cart.quantity FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = ".$user_id." AND cart_code = ".$cart_code."";
 
 		$rows = $function->selectAll($query);
 		foreach ($rows as $row) {
 			$data = ['quantity' => $row['quantity'], 'id' => $row['id']];
 			$query = "UPDATE products SET QuantityInStock = (QuantityInStock - :quantity) WHERE id = :id";
+			$function->update($query, $data);
+
+		}
+
+		//Update product QuantitySold
+		$query = "SELECT products.id, products.QuantitySold, cart.quantity FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = ".$user_id." AND cart_code = ".$cart_code."";
+
+		$rows = $function->selectAll($query);
+		foreach ($rows as $row) {
+			$data = ['quantity' => $row['quantity'], 'id' => $row['id']];
+			$query = "UPDATE products SET QuantitySold = (QuantitySold + :quantity) WHERE id = :id";
 			$function->update($query, $data);
 
 		}
