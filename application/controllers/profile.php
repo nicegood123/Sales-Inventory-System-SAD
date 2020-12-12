@@ -6,7 +6,10 @@ session_start();
 
 if (!isset($_SESSION['is_logged_in'])) {
 	header("Location:sign-in.php");
+}
 
+if ($_SESSION['user']['type'] == 1) {
+	header('Location:admin');
 }
 
 try {

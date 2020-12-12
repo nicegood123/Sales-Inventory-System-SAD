@@ -66,7 +66,7 @@ if (isset($_POST['edit-product'])) {
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>Products | Admin</title>
     <!-- Favicon-->
-    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -313,31 +313,8 @@ if (isset($_POST['edit-product'])) {
 
     <!-- Custom Js -->
     <script src="js/admin.js"></script>
-    <script src="js/pages/ui/dialogs.js"></script>
     <script src="js/pages/ui/modals.js"></script>
     <script src="js/pages/tables/jquery-datatable.js"></script>
-
-    <!-- Demo Js -->
-    <script src="js/demo.js"></script>
-    <script>
-        $('#editModal').on('hidden.bs.modal', function (e) {           
-            location.reload();
-            $('#editModal').show();
-        })
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('products-table').DataTable({
-                dom: 'Bfrtip',
-                buttons: [{
-                    extends:'pdf',
-                    title: 'Customized PDF title',
-                    filename: 'Customized_pdf_FILE_Nmae'
-                }]
-            });
-        });    
-    </script>
-
 
 </body>
 
