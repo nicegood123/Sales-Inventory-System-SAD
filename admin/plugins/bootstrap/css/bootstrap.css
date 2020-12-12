@@ -3590,6 +3590,7 @@ tbody.collapse.in {
 }
 .open > .dropdown-menu {
   display: block;
+  padding-left: 30px;
 }
 .open > a {
   outline: 0;

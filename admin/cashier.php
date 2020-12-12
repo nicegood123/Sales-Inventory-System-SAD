@@ -89,7 +89,8 @@ if (isset($_GET['delete_id'])) {
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+        type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
     <!-- Bootstrap Core Css -->
@@ -124,11 +125,11 @@ if (isset($_GET['delete_id'])) {
 
     <!-- Top Bar -->
     <?php include 'sections/top-bar.php'; ?>
-  
+
     <section>
         <!-- Left Sidebar -->
         <?php include 'sections/left-sidebar/leftsidebar.php'; ?>
-       
+
     </section>
 
     <section class="content">
@@ -144,54 +145,62 @@ if (isset($_GET['delete_id'])) {
                         <div class="body">
                             <div class="row clearfix">
                                 <div class="col-xs-12 ol-sm-12 col-md-12 col-lg-12">
-                                    <div class="panel-group" id="accordion_19" role="tablist" aria-multiselectable="true">
+                                    <div class="panel-group" id="accordion_19" role="tablist"
+                                        aria-multiselectable="true">
                                         <div class="panel panel-default">
                                             <div class="panel-heading" role="tab" id="headingOne_19">
                                                 <h4 class="panel-title">
-                                                    <a role="button" data-toggle="collapse" href="#collapseOne_19" aria-expanded="true" aria-controls="collapseOne_19">Products</a>
+                                                    <a role="button" data-toggle="collapse" href="#collapseOne_19"
+                                                        aria-expanded="true" aria-controls="collapseOne_19">Products</a>
                                                 </h4>
                                             </div>
-                                            <div id="collapseOne_19" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne_19">
+                                            <div id="collapseOne_19" class="panel-collapse collapse" role="tabpanel"
+                                                aria-labelledby="headingOne_19">
                                                 <div class="panel-body">
-                                                <div class="table-responsive">
-                                                    <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="products-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Product Name</th>
-                                                                <th>Price</th>
-                                                                <th>Quantity</th>
-                                                                <th class="text-center">Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                    <div class="table-responsive">
+                                                        <table
+                                                            class="table table-bordered table-striped table-hover dataTable js-basic-example"
+                                                            id="products-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Product Name</th>
+                                                                    <th>Price</th>
+                                                                    <th>Quantity</th>
+                                                                    <th class="text-center">Actions</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                        <?php
+                                                                <?php
                                                         try {
 
                                                             $query = "SELECT * FROM products WHERE QuantityInStock > 0";
                                                             $rows = $function->selectAll($query);
                                                             foreach ($rows as $row) { ?>
 
-                                                            <tr>
-                                                                <td><?php echo $row['name']; ?></td>
-                                                                <td><?php echo $row['price']; ?></td>
-                                                                <td><?php echo $row['QuantityInStock']; ?></td>
-                                                                <td class="text-center">
-                                                                    <a data-toggle="modal" data-target="#addModal_<?php echo $row['id']; ?>" class="btn btn-success btn-xs waves-effect">
-                                                                        <i class="material-icons" style="font-size:1.6rem;">add</i>
-                                                                    </a>
-                                                                    <?php include 'cashier-modal.php'; ?>
-                                                                </td>
-                                                            </tr>
-                                                        <?php
+                                                                <tr>
+                                                                    <td><?php echo $row['name']; ?></td>
+                                                                    <td><?php echo $row['price']; ?></td>
+                                                                    <td><?php echo $row['QuantityInStock']; ?></td>
+                                                                    <td class="text-center">
+                                                                        <a data-toggle="modal"
+                                                                            data-target="#addModal_<?php echo $row['id']; ?>"
+                                                                            class="btn btn-success btn-xs waves-effect">
+                                                                            <i class="material-icons"
+                                                                                style="font-size:1.6rem;">add</i>
+                                                                        </a>
+                                                                        <?php include 'cashier-modal.php'; ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
                                                             }
                                                         } catch (PDOException $e) {
                                                             echo "There is some problem in connection: " . $e->getMessage();
                                                         }
                                                         ?>
 
-                                                        </tbody>
-                                                    </table>
+                                                            </tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -199,73 +208,87 @@ if (isset($_GET['delete_id'])) {
                                         <div class="panel panel-default">
                                             <div class="panel-heading" role="tab" id="headingTwo_19">
                                                 <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" href="#collapseTwo_19" aria-expanded="false" aria-controls="collapseTwo_19">Orders</a>
+                                                    <a class="collapsed" role="button" data-toggle="collapse"
+                                                        href="#collapseTwo_19" aria-expanded="false"
+                                                        aria-controls="collapseTwo_19">Orders</a>
                                                 </h4>
                                             </div>
-                                            <div id="collapseTwo_19" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo_19">
+                                            <div id="collapseTwo_19" class="panel-collapse collapse in" role="tabpanel"
+                                                aria-labelledby="headingTwo_19">
                                                 <div class="panel-body">
-                                                  <div class="table-responsive">
-                                                    <table class="table table-bordered table-striped table-hover dataTable js-basic-example" id="products-table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Product</th>
-                                                                <th>Price</th>
-                                                                <th>Quantity</th>
-                                                                <th>Total</th>
-                                                                <th class="text-center">Action</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
+                                                    <div class="table-responsive">
+                                                        <table
+                                                            class="table table-bordered table-striped table-hover dataTable js-basic-example"
+                                                            id="products-table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Product</th>
+                                                                    <th>Price</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Total</th>
+                                                                    <th class="text-center">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
 
-                                                        <?php
+                                                                <?php
                                                         
                                                         $cart_total = 0;
                                                         $query = "SELECT cart.cart_id, products.id, products.name, products.price, cart.quantity, (products.price * cart.quantity) AS 'total' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = -1 AND cart_code = 0 GROUP BY cart.product_id ORDER BY cart_id";
 
                                                         $rows = $function->selectAll($query);
                                                         foreach ($rows as $row) { ?>
-                                                            <tr>
-                                                                <td><?php echo $row['name']; ?></td>
-                                                                <td><?php echo $row['price']; ?></td>
-                                                                <td class="text-center">
-                                                                    <div class="btn-group">
-                                                                    <a href="#" class="btn btn-info btn-xs waves-effect">
-                                                                        <i class="material-icons" style="font-size:1.6rem;">remove</i>
-                                                                    </a>
-                                                                    <a class="btn btn-default btn-xs m-r-5">
-                                                                    <i class="material-icons" style="font-size:1.6rem;"></i>
-                                                                        <?php echo $row['quantity']; ?>
-                                                                    </a>
-                                                                    <a href="#" class="btn btn-info btn-xs waves-effect">
-                                                                        <i class="material-icons" style="font-size:1.6rem;">add</i>
-                                                                    </a>
-                                                                    </div>
-                                                                </td>
-                                                                <td><?php echo $row['total']; ?></td>
-                                                                <td  class="text-center">
-                                                                    <a href="?delete_id=<?php echo $row['cart_id']; ?>"" class="btn btn-danger btn-xs waves-effect">
-                                                                        <i class="material-icons" style="font-size:1.6rem;">clear</i>
-                                                                    </a>  
-                                                                </td>
-                                                            </tr>
+                                                                <tr>
+                                                                    <td><?php echo $row['name']; ?></td>
+                                                                    <td><?php echo $row['price']; ?></td>
+                                                                    <td class="text-center">
+                                                                        <div class="btn-group">
+                                                                            <a href="#"
+                                                                                class="btn btn-info btn-xs waves-effect">
+                                                                                <i class="material-icons"
+                                                                                    style="font-size:1.6rem;">remove</i>
+                                                                            </a>
+                                                                            <a class="btn btn-default btn-xs m-r-5">
+                                                                                <i class="material-icons"
+                                                                                    style="font-size:1.6rem;"></i>
+                                                                                <?php echo $row['quantity']; ?>
+                                                                            </a>
+                                                                            <a href="#"
+                                                                                class="btn btn-info btn-xs waves-effect">
+                                                                                <i class="material-icons"
+                                                                                    style="font-size:1.6rem;">add</i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><?php echo $row['total']; ?></td>
+                                                                    <td class="text-center">
+                                                                        <a href="?delete_id=<?php echo $row['cart_id']; ?>"" class="
+                                                                            btn btn-danger btn-xs waves-effect">
+                                                                            <i class="material-icons"
+                                                                                style="font-size:1.6rem;">clear</i>
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
 
-                                                        <?php
+                                                                <?php
                                                             $cart_total += $row['total'];
-                                                        } ?>
-                                                            
-                                                        </tbody>
-                                                    </table>
-                                                  </div>
+                                                        }
+                                                		$_SESSION['cart_total'] = $cart_total;
+                                                        ?>
 
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
 
-                                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-30">
-                                                    <p class="pull-right">
-                                                        <b>Cart Total</b>
-                                                        PHP <?php echo number_format($cart_total, 2);  ?>
-                                                    </p>
-                                                  </div>
-                                                  <!-- <input type="submit" class="btn btn-primary pull-right" value="Checkout"> -->
-                                                  <a href="checkout.php" class="btn btn-primary pull-right">Checkout</a>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-30">
+                                                        <p class="pull-right">
+                                                            <b>Cart Total</b>
+                                                            PHP <?php echo number_format($cart_total, 2);  ?>
+                                                        </p>
+                                                    </div>
+                                                    <!-- <input type="submit" class="btn btn-primary pull-right" value="Checkout"> -->
+                                                    <a href="checkout.php" class="btn btn-primary pull-right">Proceed to
+                                                        Checkout</a>
                                                 </div>
                                             </div>
                                         </div>
