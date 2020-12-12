@@ -10,6 +10,28 @@ if (!isset($_SESSION['is_logged_in'])) {
 }
 
 
+$subtotal = $_SESSION['cart_total'];
+$vat = $subtotal * 0.12;
+$discounts = 0;
+
+if (isset($_POST['apply-changes'])) {
+
+
+  $_SESSION['user_id'] = isset($_POST['type']) ? $_POST['name'] : -1;
+
+  if (isset($_POST['discounts'])) {
+    $discounts = $subtotal * 0.20;
+    $vat = 0;
+    $_SESSION['discounts'] = $_POST['senior-id'];
+  }
+
+  $_SESSION['payment_method'] = $_POST['payment-method'];
+
+}
+
+$total = ($subtotal + $vat) - $discounts;
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -82,57 +104,64 @@ if (!isset($_SESSION['is_logged_in'])) {
               </a>
             </div>
             <div class="body">
-              <div class="row clearfix">
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                  <p>
-                    <b>Customer Type</b>
-                    <div class="demo-checkbox m-l-30">
-                      <input type="checkbox" id="basic_checkbox_1">
-                      <label for="basic_checkbox_1">Regular</label>
-                      <select class="form-control show-tick" data-live-search="true" disabled>
-                        <option>Hot Dog, Fries and a Soda</option>
-                      </select>
-                    </div>
-                  </p>
-                </div>
-                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                  <p>
-                    <b>Discounts</b>
-                    <div class="demo-checkbox m-l-30">
-                      <div class="col-xs-11">
-                        <input type="checkbox" id="discounts">
-                        <label for="discounts">Senior Citizen</label>
-                        <input type="text" id="discounts-input" name="name" class="form-control" disabled>
+              <form method="post">
+                <div class="row clearfix">
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <p>
+                      <b>Customer Type</b>
+                      <div class="demo-checkbox m-l-30">
+                        <input type="checkbox" id="type" name="type[]">
+                        <label for="type">Regular</label>
+                        <select class="form-control show-tick" id="name" name="name" data-live-search="true">
+                          <?php
+                          $query = "SELECT * FROM users WHERE type = 0";
+                          $rows = $function->selectAll($query);
+                          foreach ($rows as $row): ?>
+                          <option value="<?php echo $row['id']; ?>">
+                            <?php echo $row['id']. ' - ' . $row['firstname'] . ' ' . $row['lastname']; ?>
+                          </option>
+                          <?php endforeach; ?>
+                        </select>
                       </div>
-                    </div>
-                  </p>
-                </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <p>
-                    <b>Payment Method</b>
-                    <div class="demo-checkbox m-l-30">
-                      <div class="col-xs-11">
-                        <input type="checkbox" id="basic_checkbox_2">
-                        <label for="basic_checkbox_2">Senior Citizen</label>
-                        <input type="text" id="" name="name" class="form-control" disabled>
+                    </p>
+                  </div>
+                  <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                    <p>
+                      <b>Discounts</b>
+                      <div class="demo-checkbox m-l-30">
+                        <div class="col-xs-11">
+                          <input type="checkbox" id="discounts" name="discounts[]">
+                          <label for="discounts">Senior Citizen</label>
+                          <input type="text" id="discounts-input" name="senior-id" class="form-control" required
+                            disabled>
+                        </div>
                       </div>
-                    </div>
-                  </p>
+                    </p>
+                  </div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p>
+                      <b>Payment Method</b>
+                      <div class="demo-checkbox m-l-30">
+                        <div class="col-xs-11">
+                          <div class="demo-radio-button">
+                            <input name="payment-method" type="radio" value="cash" id="rdo-cash" checked="">
+                            <label for="rdo-cash">Cash</label>
+                            <input name="payment-method" type="radio" value="check" id="rdo-check">
+                            <label for="rdo-check">Check Payment</label>
+                          </div>
+                        </div>
+                      </div>
+                    </p>
+                    <button type="submit" name="apply-changes" class="btn btn-primary pull-right">
+                      <i class="material-icons" style="font-size:1.6rem;">refresh</i>
+                      Apply Changes
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
-
-        <?php
-
-          $subtotal = $_SESSION['cart_total'];
-          $vat = $subtotal * 0.12;
-          $discounts = 0;
-          $total = ($subtotal + $vat) - $discounts;
-  
-        ?>
-
 
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
           <div class="card">
@@ -166,6 +195,85 @@ if (!isset($_SESSION['is_logged_in'])) {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <?php
+        $cash_status = 'hidden';
+        $check_status = 'hidden';
+
+        if (isset($_POST['apply-changes']) && $_POST['payment-method'] == 'check') {
+          $check_status = '';
+        } else { $cash_status = ''; }
+        ?>
+
+        <!-- CASH Payment -->
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" <?php echo $cash_status; ?>>
+          <div class="card">
+            <div class="header">
+              <h2>Payment</h2>
+            </div>
+            <div class="body">
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input type="number" name="cash" min="0" class="form-control" required>
+                  <label class="form-label">Cash</label>
+                </div>
+              </div>
+              <div class="form-group form-float">
+                <div class="form-line">
+                  <input type="text" name="change" class="form-control" value="23" readonly>
+                  <label class="form-label">Change</label>
+                </div>
+                <br>
+                <input type="submit" name="purchase" value="Purchase" class="btn btn-primary pull-right">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Check Payment -->
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" <?php echo $check_status; ?>>
+          <div class="card">
+            <div class="header">
+              <h2>Payment</h2>
+            </div>
+            <div class="body">
+
+              <form>
+                <label for="bank_name">Bank Name</label>
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text" name="bank-name" id="bank_name" class="form-control"
+                      placeholder="Enter bank name" required>
+                  </div>
+                </div>
+
+                <label for="branch">Branch</label>
+                <div class="form-group">
+                  <select class="form-control show-tick">
+                    <option value="10">Matina</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                  </select>
+                </div>
+
+
+
+
+                <label for="check_number" class="m-t-10">Check Number</label>
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text" name="check-number" id="check_number" class="form-control"
+                      placeholder="Enter check number" required>
+                  </div>
+                  <br>
+                  <input type="submit" name="purchase" value="Purchase" class="btn btn-primary pull-right">
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -221,16 +329,18 @@ if (!isset($_SESSION['is_logged_in'])) {
       }
     });
   </script>
-
   <script>
-    $('#discounts').click(function () {
-      var vat = $('#vat').text()
-      if (this.checked) {
-        $('#vat').text('PHP 0.00')
-      } else {
-        $('#vat').text(val)
-      }
-    })
+    $(document).ready(function () {
+      $('#name').attr('disabled', 'disabled');
+
+      $('#type').click(function () {
+        if (this.checked) {
+          $('#name').removeAttr('disabled');
+        } else {
+          $('#name').attr('disabled', 'disabled');
+        }
+      });
+    });
   </script>
 
 </body>
