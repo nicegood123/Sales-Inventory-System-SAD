@@ -12,7 +12,13 @@ if (!isset($_SESSION['is_logged_in'])) {
 
 $subtotal = $_SESSION['cart_total'];
 $vat = $subtotal * 0.12;
-$discounts = 0;
+$discounts = 0.00;
+
+if (isset($_POST['payment-method'])) {
+    $payment_method = $_POST['payment-method'];
+} else {
+  $payment_method = 'Cash Payment';
+}
 
 if (isset($_POST['apply-changes'])) {
 
@@ -20,7 +26,7 @@ if (isset($_POST['apply-changes'])) {
   if (isset($_POST['discounts'])) {
     $discounts = $subtotal * 0.20;
     $vat = 0;
-    $_SESSION['discounts'] = $_POST['senior-id'];
+    $_SESSION['discounts'] = $discounts;
   }
   
   if (isset($_POST['type'])) {
@@ -55,18 +61,23 @@ if (isset($_POST['pay-cash'])) {
     'order_id' => $order_id,
     'user_id' => $user_id,
     'total' => $total,
+    'payment_method' => $payment_method
   ];
 
 
   //Add order
-  $query = "INSERT INTO orders (order_id, user_id, total) VALUES (:order_id, :user_id, :total)";
+  $query = "INSERT INTO orders (order_id, user_id, total, payment_method) VALUES (:order_id, :user_id, :total, :payment_method)";
   $function->insert($query, $data);
 
   //Set cart code
   $cart_code = $order_id;
-  $data = ['cart_code' => $cart_code, 'user_id' => $user_id];
+  $data = [
+    'cart_code' => $cart_code, 
+    'user_id' => $user_id,
+    'discount' => $_SESSION['discounts']
+    ];
 
-  $query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 1";
+  $query = "UPDATE cart SET discount = :discount, cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 1";
   $function->update($query, $data);
 
   //Update product QuantitySold

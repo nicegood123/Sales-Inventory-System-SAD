@@ -1,7 +1,8 @@
 ﻿<?php
     require '../application/config/connection.php';
     require_once '../application/config/functions.php';
-
+    
+    session_start();
 ?>
 
 <!DOCTYPE html>
