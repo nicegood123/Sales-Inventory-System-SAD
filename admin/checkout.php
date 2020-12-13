@@ -181,17 +181,17 @@ $total = ($subtotal + $vat) - $discounts;
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                   <p>PHP
-                    <?php echo $subtotal; ?>
+                    <?php echo number_format($subtotal, 2); ?>
                   </p>
                   <p id="vat">PHP
-                    <?php echo $vat; ?>
+                    <?php echo number_format($vat, 2); ?>
                   </p>
                   <p>PHP
-                    <?php echo $discounts; ?>
+                    <?php echo number_format($discounts, 2); ?>
                   </p>
                   <hr>
-                  <p>PHP
-                    <?php echo $total; ?>
+                  <p id="total">PHP
+                    <?php echo number_format($total, 2); ?>
                   </p>
                 </div>
               </div>
@@ -215,20 +215,23 @@ $total = ($subtotal + $vat) - $discounts;
               <h2>Payment</h2>
             </div>
             <div class="body">
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input type="number" name="cash" min="0" class="form-control" required>
-                  <label class="form-label">Cash</label>
+              <form method="post">
+                <label for="cash">Cash</label>
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text" name="cash" id="cash" class="form-control" placeholder="Enter cash" required>
+                  </div>
                 </div>
-              </div>
-              <div class="form-group form-float">
-                <div class="form-line">
-                  <input type="text" name="change" class="form-control" value="23" readonly>
-                  <label class="form-label">Change</label>
+                <label for="cash">Change</label>
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text" name="change" id="change" value="0.00" class="form-control" disabled>
+                  </div>
+                  <br>
+                  <input type="submit" name="pay" id="pay" value="Pay" class="btn btn-primary pull-right"
+                    disabled>
                 </div>
-                <br>
-                <input type="submit" name="purchase" value="Purchase" class="btn btn-primary pull-right">
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -260,10 +263,6 @@ $total = ($subtotal + $vat) - $discounts;
                     <option value="50">50</option>
                   </select>
                 </div>
-
-
-
-
                 <label for="check_number" class="m-t-10">Check Number</label>
                 <div class="form-group">
                   <div class="form-line">
@@ -271,7 +270,7 @@ $total = ($subtotal + $vat) - $discounts;
                       placeholder="Enter check number" required>
                   </div>
                   <br>
-                  <input type="submit" name="purchase" value="Purchase" class="btn btn-primary pull-right">
+                  <input type="submit" name="pay-check" id="pay-check" value="Pay" class="btn btn-primary pull-right">
                 </div>
               </form>
             </div>
@@ -340,6 +339,26 @@ $total = ($subtotal + $vat) - $discounts;
           $('#name').attr('disabled', 'disabled');
         }
       });
+
+      $('#cash').bind('input', function () {
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+        var total = $('#total').text().replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+        var cash = $(this).val();
+        var change = cash - total;
+        $('#change').val(change.toFixed(2));
+
+        if (change >= 0) {
+          $('#pay').removeAttr('disabled');
+        } else {
+          $('#pay').attr('disabled', 'disabled');
+        }
+
+        if (!$('#cash').val()) {
+          $('#change').val('0.00');
+        }
+
+      });
+
     });
   </script>
 

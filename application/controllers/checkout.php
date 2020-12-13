@@ -3,7 +3,6 @@ require 'application/config/connection.php';
 require_once 'application/config/functions.php';
 
 session_start();
-date_default_timezone_set('Asia/Manila');
 
 if (!isset($_SESSION['is_logged_in'])) {
 	header("Location:sign-in.php");
@@ -29,7 +28,6 @@ try {
 		$order_id = $id;
 		$contact = $_POST['contact'];
 		$address = $_POST['address'];
-		$ordered_date = date("F j, Y, g:i A");
 
 		$data = [
 			'order_id' => $order_id,
@@ -37,12 +35,11 @@ try {
 			'contact' => $contact,
 			'address' => $address,
 			'total' => $total,
-			'ordered_date' => $ordered_date,
 		];
 
 
 		//Add order
-		$query = "INSERT INTO orders (order_id, user_id, contact, address, total, ordered_date) VALUES (:order_id, :user_id, :contact, :address, :total, :ordered_date)";
+		$query = "INSERT INTO orders (order_id, user_id, contact, address, total) VALUES (:order_id, :user_id, :contact, :address, :total)";
 		$function->insert($query, $data);
 
 		//Set cart code

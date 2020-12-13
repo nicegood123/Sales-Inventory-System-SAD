@@ -180,7 +180,9 @@ if (isset($_GET['delete_id'])) {
 
                                                                 <tr>
                                                                     <td><?php echo $row['name']; ?></td>
-                                                                    <td><?php echo $row['price']; ?></td>
+                                                                    <td>PHP
+                                                                        <?php echo number_format($row['price'], 2); ?>
+                                                                    </td>
                                                                     <td><?php echo $row['QuantityInStock']; ?></td>
                                                                     <td class="text-center">
                                                                         <a data-toggle="modal"
@@ -210,7 +212,7 @@ if (isset($_GET['delete_id'])) {
                                                 <h4 class="panel-title">
                                                     <a class="collapsed" role="button" data-toggle="collapse"
                                                         href="#collapseTwo_19" aria-expanded="false"
-                                                        aria-controls="collapseTwo_19">Orders</a>
+                                                        aria-controls="collapseTwo_19">Cart</a>
                                                 </h4>
                                             </div>
                                             <div id="collapseTwo_19" class="panel-collapse collapse in" role="tabpanel"
@@ -240,7 +242,9 @@ if (isset($_GET['delete_id'])) {
                                                         foreach ($rows as $row) { ?>
                                                                 <tr>
                                                                     <td><?php echo $row['name']; ?></td>
-                                                                    <td><?php echo $row['price']; ?></td>
+                                                                    <td>PHP
+                                                                        <?php echo number_format($row['price'], 2); ?>
+                                                                    </td>
                                                                     <td class="text-center">
                                                                         <div class="btn-group">
                                                                             <a href="#"
@@ -260,7 +264,9 @@ if (isset($_GET['delete_id'])) {
                                                                             </a>
                                                                         </div>
                                                                     </td>
-                                                                    <td><?php echo $row['total']; ?></td>
+                                                                    <td>PHP
+                                                                        <?php echo number_format($row['total'], 2); ?>
+                                                                    </td>
                                                                     <td class="text-center">
                                                                         <a href="?delete_id=<?php echo $row['cart_id']; ?>"" class="
                                                                             btn btn-danger btn-xs waves-effect">
@@ -281,14 +287,18 @@ if (isset($_GET['delete_id'])) {
                                                     </div>
 
                                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 m-t-30">
-                                                        <p class="pull-right">
+                                                        <p class="pull-right" id="cart-total">
                                                             <b>Cart Total</b>
                                                             PHP <?php echo number_format($cart_total, 2);  ?>
                                                         </p>
                                                     </div>
                                                     <!-- <input type="submit" class="btn btn-primary pull-right" value="Checkout"> -->
-                                                    <a href="checkout.php" class="btn btn-primary pull-right">Proceed to
-                                                        Checkout</a>
+
+                                                    <button id="proceed-to-checkout" disabled
+                                                        class="btn btn-primary pull-right"
+                                                        onclick="window.location.href='checkout.php'">
+                                                        Proceed to Checkout
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -338,6 +348,18 @@ if (isset($_GET['delete_id'])) {
     <!-- Custom Js -->
     <script src="js/admin.js"></script>
     <script src="js/pages/tables/jquery-datatable.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var cart_total = $('#cart-total').text();
+            if (cart_total.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1') > 0) {
+                $('#proceed-to-checkout').removeAttr('disabled');
+            } else {
+                $('#proceed-to-checkout').attr('disabled', 'disabled');
+            }
+
+        });
+    </script>
 
 </body>
 
