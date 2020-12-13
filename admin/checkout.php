@@ -17,19 +17,71 @@ $discounts = 0;
 if (isset($_POST['apply-changes'])) {
 
 
-  $_SESSION['user_id'] = isset($_POST['type']) ? $_POST['name'] : -1;
-
   if (isset($_POST['discounts'])) {
     $discounts = $subtotal * 0.20;
     $vat = 0;
     $_SESSION['discounts'] = $_POST['senior-id'];
   }
+  
+  if (isset($_POST['type'])) {
+    $user_id = $_POST['name'];
+  } else {
+    $user_id = -1;
+  }
 
-  $_SESSION['payment_method'] = $_POST['payment-method'];
+  $_SESSION['user_id'] = $user_id;
+
+
+  $data = [
+    'user_id' => $user_id
+  ];
+
+  $query = "UPDATE cart SET user_id = :user_id WHERE cart_code = 1";
+  $function->update($query, $data);
 
 }
 
 $total = ($subtotal + $vat) - $discounts;
+
+if (isset($_POST['pay-cash'])) {
+  $id = $function->setOrderID('order_id', 'orders');
+  // $cart = $function->getData('cart', 'cart_id', $_SESSION['cart_id']);
+
+  //Insert Order
+  $order_id = $id;
+  $user_id = $_SESSION['user_id'];
+
+  $data = [
+    'order_id' => $order_id,
+    'user_id' => $user_id,
+    'total' => $total,
+  ];
+
+
+  //Add order
+  $query = "INSERT INTO orders (order_id, user_id, total) VALUES (:order_id, :user_id, :total)";
+  $function->insert($query, $data);
+
+  //Set cart code
+  $cart_code = $order_id;
+  $data = ['cart_code' => $cart_code, 'user_id' => $user_id];
+
+  $query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 1";
+  $function->update($query, $data);
+
+  //Update product QuantitySold
+  $query = "SELECT products.id, products.QuantitySold, cart.quantity FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = ".$user_id." AND cart_code = ".$cart_code."";
+
+  $rows = $function->selectAll($query);
+  foreach ($rows as $row) {
+    $data = ['quantity' => $row['quantity'], 'id' => $row['id']];
+    $query = "UPDATE products SET QuantitySold = (QuantitySold + :quantity) WHERE id = :id";
+    $function->update($query, $data);
+
+  }
+
+
+}
 
 
 ?>
@@ -132,8 +184,8 @@ $total = ($subtotal + $vat) - $discounts;
                         <div class="col-xs-11">
                           <input type="checkbox" id="discounts" name="discounts[]">
                           <label for="discounts">Senior Citizen</label>
-                          <input type="text" id="discounts-input" name="senior-id" class="form-control" required
-                            disabled>
+                          <input type="text" id="discounts-input" maxlength="8" name="senior-id" class="form-control"
+                            required disabled>
                         </div>
                       </div>
                     </p>
@@ -228,8 +280,7 @@ $total = ($subtotal + $vat) - $discounts;
                     <input type="text" name="change" id="change" value="0.00" class="form-control" disabled>
                   </div>
                   <br>
-                  <input type="submit" name="pay" id="pay" value="Pay" class="btn btn-primary pull-right"
-                    disabled>
+                  <input type="submit" name="pay-cash" id="pay" value="Pay" class="btn btn-primary pull-right" disabled>
                 </div>
               </form>
             </div>
@@ -357,6 +408,10 @@ $total = ($subtotal + $vat) - $discounts;
           $('#change').val('0.00');
         }
 
+      });
+
+      $('#discounts-input').bind('input', function () {
+        this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
       });
 
     });

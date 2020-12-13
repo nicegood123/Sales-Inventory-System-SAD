@@ -9,20 +9,25 @@ if (!isset($_SESSION['is_logged_in'])) {
 	header("Location:../sign-in.php");
 }
 
-
 if (isset($_POST['add-order'])) {
 
-    $user_id = -1;
+    if (empty($_SESSION['user_id'])) {
+        $user_id = -1;
+    } else {
+        $user_id = $_SESSION['user_id'];
+    }
+
     $product_id = $_GET['id'];
     $quantity = $_POST['quantity'];
 
     $data = [
-        'cart_code' => 0,
+        'cart_code' => 1,
         'user_id' => $user_id,
         'product_id' => $product_id
     ];
 
     $product = $function->searchInCart($data);
+
     if (empty($product)) {
 
         $data = [
@@ -31,7 +36,7 @@ if (isset($_POST['add-order'])) {
             'quantity' => $quantity,
         ];
 
-        $query = "INSERT INTO cart (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)";
+        $query = "INSERT INTO cart (user_id, product_id, quantity, cart_code) VALUES (:user_id, :product_id, :quantity, 1)";
         $function->insert($query, $data);
 
     } else {
@@ -39,11 +44,12 @@ if (isset($_POST['add-order'])) {
         $quantity += $product['quantity'];
         $data = [
             'quantity' => $quantity,
-            'user_id' => $user_id,
-            'product_id' => $product_id
+            'cart_id' => $product['cart_id'],
         ];
 
-        $query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 0 AND user_id = :user_id AND product_id = :product_id";
+        // $query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 0 AND user_id = :user_id AND product_id = :product_id";
+
+        $query = "UPDATE cart SET quantity = :quantity WHERE cart_id = :cart_id";
         $function->update($query, $data);
 
     }
@@ -234,11 +240,22 @@ if (isset($_GET['delete_id'])) {
                                                             <tbody>
 
                                                                 <?php
-                                                        
-                                                        $cart_total = 0;
-                                                        $query = "SELECT cart.cart_id, products.id, products.name, products.price, cart.quantity, (products.price * cart.quantity) AS 'total' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = -1 AND cart_code = 0 GROUP BY cart.product_id ORDER BY cart_id";
 
+                                                        $data = ['user_id' => -1, 'cart_code' => 0];
+                                                        $query = "SELECT * FROM cart WHERE user_id = :user_id AND cart_code = :cart_code";
+                                                        $cart = $function->getRow($query, $data);
+                                                        if(!empty($cart)) {
+                                                            $_SESSION['cart_id'] = $cart['cart_id'];
+                                                        }
+
+                                                        $cart_total = 0;
+                                                        $query = "SELECT cart.cart_id, products.id, products.name, products.price, cart.quantity, (products.price * cart.quantity) AS 'total' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE cart_code = 1 ";
                                                         $rows = $function->selectAll($query);
+
+                                                        if (empty($rows)) {
+                                                            $_SESSION['user_id'] = -1;
+                                                        }
+
                                                         foreach ($rows as $row) { ?>
                                                                 <tr>
                                                                     <td><?php echo $row['name']; ?></td>
