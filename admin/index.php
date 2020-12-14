@@ -5,6 +5,10 @@ if (!isset($_SESSION['is_logged_in'])) {
 	header("Location:../sign-in.php");
 }
 
+$_SESSION['message'] = '';
+$_SESSION['discounts'] = 0.00;
+$_SESSION['payment_method'] = 'Cash Payment';
+
 
 ?>
 <!DOCTYPE html>

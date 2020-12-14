@@ -47,8 +47,6 @@ if (isset($_POST['add-order'])) {
             'cart_id' => $product['cart_id'],
         ];
 
-        // $query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 0 AND user_id = :user_id AND product_id = :product_id";
-
         $query = "UPDATE cart SET quantity = :quantity WHERE cart_id = :cart_id";
         $function->update($query, $data);
 
@@ -58,8 +56,6 @@ if (isset($_POST['add-order'])) {
     $data = ['quantity' => $_POST['quantity'], 'id' => $product_id];
     $query = "UPDATE products SET QuantityInStock = (QuantityInStock - :quantity) WHERE id = :id";
     $function->update($query, $data);
-
-
   
   }
 
@@ -78,7 +74,6 @@ if (isset($_GET['delete_id'])) {
     $data = ['cart_id' => $cart_id];
     $query = "DELETE FROM cart WHERE cart_id = :cart_id";
     $function->delete($query, $data);
-  
 
   }
 
@@ -143,6 +138,8 @@ if (isset($_GET['delete_id'])) {
             <div class="block-header">
                 <h2>CASHIER</h2>
             </div>
+
+          <?php echo $_SESSION['message']; $_SESSION['message'] = ''; ?>
 
             <!-- Multiple Items To Be Open -->
             <div class="row clearfix">

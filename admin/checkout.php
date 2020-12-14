@@ -9,23 +9,18 @@ if (!isset($_SESSION['is_logged_in'])) {
 	header("Location:../sign-in.php");
 }
 
+$message = "";
 
 $subtotal = $_SESSION['cart_total'];
-$vat = $subtotal * 0.12;
-$discounts = 0.00;
-
-if (isset($_POST['payment-method'])) {
-    $payment_method = $_POST['payment-method'];
-} else {
-  $payment_method = 'Cash Payment';
-}
+$_SESSION['vat'] = $subtotal * 0.12;
 
 if (isset($_POST['apply-changes'])) {
 
+  $_SESSION['payment_method'] = $_POST['payment-method'];
 
   if (isset($_POST['discounts'])) {
     $discounts = $subtotal * 0.20;
-    $vat = 0;
+    $_SESSION['vat'] = 0;
     $_SESSION['discounts'] = $discounts;
   }
   
@@ -47,11 +42,15 @@ if (isset($_POST['apply-changes'])) {
 
 }
 
-$total = ($subtotal + $vat) - $discounts;
+$total = ($subtotal + $_SESSION['vat']) - $_SESSION['discounts'];
+$_SESSION['total'] = $total;
 
-if (isset($_POST['pay-cash'])) {
-  $id = $function->setOrderID('order_id', 'orders');
-  // $cart = $function->getData('cart', 'cart_id', $_SESSION['cart_id']);
+
+if (isset($_POST['pay-cash'])  || isset($_POST['pay-check'])) {
+
+  try {
+    
+    $id = $function->setOrderID('order_id', 'orders');
 
   //Insert Order
   $order_id = $id;
@@ -60,24 +59,28 @@ if (isset($_POST['pay-cash'])) {
   $data = [
     'order_id' => $order_id,
     'user_id' => $user_id,
-    'total' => $total,
-    'payment_method' => $payment_method
+    'discount' => $_SESSION['discounts'],
+    'total' => $_SESSION['total'],
+    'payment_method' => $_SESSION['payment_method']
   ];
 
-
   //Add order
-  $query = "INSERT INTO orders (order_id, user_id, total, payment_method) VALUES (:order_id, :user_id, :total, :payment_method)";
+  $query = "INSERT INTO orders (order_id, user_id, discount, total, payment_method) VALUES (:order_id, :user_id, :discount, :total, :payment_method)";
   $function->insert($query, $data);
+  $_SESSION['discounts'] = 0.00;
+  $_SESSION['total'] = 0.00;
+  $_SESSION['payment_method'] = 'Cash Payment';
+
+
 
   //Set cart code
   $cart_code = $order_id;
   $data = [
     'cart_code' => $cart_code, 
-    'user_id' => $user_id,
-    'discount' => $_SESSION['discounts']
+    'user_id' => $user_id
     ];
 
-  $query = "UPDATE cart SET discount = :discount, cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 1";
+  $query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 1";
   $function->update($query, $data);
 
   //Update product QuantitySold
@@ -91,6 +94,43 @@ if (isset($_POST['pay-cash'])) {
 
   }
 
+
+  //Add bank info for check payment
+  if (isset($_POST['pay-check'])) {
+      $bank_name = $_POST['bank-name'];
+      $branch = $_POST['branch'];
+      $check_number = $_POST['check-number'];
+      $check_amount = $_POST['check-amount'];
+
+      $data = [
+        'name' => $bank_name,
+        'branch' => $branch,
+        'check_number' => $check_number,
+        'check_amount' => $check_amount
+      ];
+
+      $query = "INSERT INTO bank (name, branch, check_number, check_amount) VALUES (:name, :branch, :check_number, :check_amount)";
+      $function->insert($query, $data);
+
+  }
+
+  header('Location:cashier.php');
+
+  '<div class="alert alert-success" alert-dismissible" role="alert">
+                <strong>Successful Transactions!</strong> You successfully read this important alert message.
+              </div>;';
+
+  $_SESSION['message'] = 
+              '<div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                Successful Transactions!
+              </div>';
+
+  } catch (Exception $e) {
+
+  }
 
 }
 
@@ -207,9 +247,9 @@ if (isset($_POST['pay-cash'])) {
                       <div class="demo-checkbox m-l-30">
                         <div class="col-xs-11">
                           <div class="demo-radio-button">
-                            <input name="payment-method" type="radio" value="cash" id="rdo-cash" checked="">
+                            <input name="payment-method" type="radio" value="Cash Payment" id="rdo-cash" checked="">
                             <label for="rdo-cash">Cash</label>
-                            <input name="payment-method" type="radio" value="check" id="rdo-check">
+                            <input name="payment-method" type="radio" value="Check Payment" id="rdo-check">
                             <label for="rdo-check">Check Payment</label>
                           </div>
                         </div>
@@ -247,14 +287,14 @@ if (isset($_POST['pay-cash'])) {
                     <?php echo number_format($subtotal, 2); ?>
                   </p>
                   <p id="vat">PHP
-                    <?php echo number_format($vat, 2); ?>
+                    <?php echo number_format($_SESSION['vat'], 2); ?>
                   </p>
                   <p>PHP
-                    <?php echo number_format($discounts, 2); ?>
+                    <?php echo number_format($_SESSION['discounts'], 2); ?>
                   </p>
                   <hr>
                   <p id="total">PHP
-                    <?php echo number_format($total, 2); ?>
+                    <?php echo number_format($_SESSION['total'], 2); ?>
                   </p>
                 </div>
               </div>
@@ -266,7 +306,7 @@ if (isset($_POST['pay-cash'])) {
         $cash_status = 'hidden';
         $check_status = 'hidden';
 
-        if (isset($_POST['apply-changes']) && $_POST['payment-method'] == 'check') {
+        if (isset($_POST['apply-changes']) && $_POST['payment-method'] == 'Check Payment') {
           $check_status = '';
         } else { $cash_status = ''; }
         ?>
@@ -306,7 +346,7 @@ if (isset($_POST['pay-cash'])) {
             </div>
             <div class="body">
 
-              <form>
+              <form method="post">
                 <label for="bank_name">Bank Name</label>
                 <div class="form-group">
                   <div class="form-line">
@@ -317,12 +357,12 @@ if (isset($_POST['pay-cash'])) {
 
                 <label for="branch">Branch</label>
                 <div class="form-group">
-                  <select class="form-control show-tick">
-                    <option value="10">Matina</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
+                  <select name="branch" class="form-control show-tick">
+                    <option value="Matina">Matina</option>
+                    <option value="Maa">Maa</option>
+                    <option value="Buhangin">Buhangin</option>
+                    <option value="Toril">Toril</option>
+                    <option value="Tagum">Tagum</option>
                   </select>
                 </div>
                 <label for="check_number" class="m-t-10">Check Number</label>
@@ -330,6 +370,13 @@ if (isset($_POST['pay-cash'])) {
                   <div class="form-line">
                     <input type="text" name="check-number" id="check_number" class="form-control"
                       placeholder="Enter check number" required>
+                  </div>
+                </div>
+                <label for="bank_name">Check Amount</label>
+                <div class="form-group">
+                  <div class="form-line">
+                    <input type="text" name="check-amount" id="check-amount" class="form-control"
+                      placeholder="Enter check amount" required>
                   </div>
                   <br>
                   <input type="submit" name="pay-check" id="pay-check" value="Pay" class="btn btn-primary pull-right">
@@ -423,6 +470,11 @@ if (isset($_POST['pay-cash'])) {
 
       $('#discounts-input').bind('input', function () {
         this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
+      });
+
+      $("#pay").submit(function (e) {
+        e.preventDefault();
+        alert("Form submitted");
       });
 
     });
