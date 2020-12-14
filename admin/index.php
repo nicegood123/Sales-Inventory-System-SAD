@@ -8,6 +8,7 @@ if (!isset($_SESSION['is_logged_in'])) {
 $_SESSION['message'] = '';
 $_SESSION['discounts'] = 0.00;
 $_SESSION['payment_method'] = 'Cash Payment';
+// $_SESSION['total_sales'] = 0;
 
 
 ?>

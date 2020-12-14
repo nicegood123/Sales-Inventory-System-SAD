@@ -55,7 +55,7 @@
                                 <a href="inventory-report.php">Invetory Report</a>
                             </li>
                             <li>
-                                <a href="#">Sales Report</a>
+                                <a href="sales-report.php">Sales Report</a>
                             </li>
                         </ul>
                     </li>

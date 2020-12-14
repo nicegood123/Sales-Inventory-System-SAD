@@ -95,6 +95,13 @@ class functions extends connection {
 
 	}
 
+	function totalSales() {
+		$query = "SELECT SUM(total) as 'total_sales' FROM orders";
+		$statement = $this->connect()->query($query);
+		return $statement->fetchAll();
+
+	}
+
 	function rowCount($table_name) {
 		$query = "SELECT COUNT(*) FROM $table_name";
 		return $this->connect()->query($query)->fetchColumn();
