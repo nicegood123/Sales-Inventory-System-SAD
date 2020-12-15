@@ -22,6 +22,8 @@ if (isset($_POST['apply-changes'])) {
     $discounts = $subtotal * 0.20;
     $_SESSION['vat'] = 0;
     $_SESSION['discounts'] = $discounts;
+  } else {
+    $_SESSION['discounts'] = 0.00;
   }
   
   if (isset($_POST['type'])) {
