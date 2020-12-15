@@ -55,7 +55,7 @@ class functions extends connection {
 	}
 
 	function getCartSubtotal($data) {
-		$query = "SELECT SUM(products.price * cart.quantity) AS 'subtotal' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE cart.cart_code = 0 AND cart.user_id = :user_id";
+		$query = "SELECT SUM(products.price * cart.quantity) AS 'subtotal' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE cart.cart_code = 1 AND cart.user_id = :user_id";
 		$statement = $this->connect()->prepare($query);
 		$statement->execute($data);
 		return $statement->fetch();
@@ -63,7 +63,7 @@ class functions extends connection {
 	}
 
 	function searchInOrders($data) {
-		$query = "SELECT orders.order_id ,orders.contact, orders.address, orders.total, (790.00) AS delivery, (orders.total - 790.00) AS 'subtotal', orders.ordered_date, users.firstname, users.lastname, users.email FROM orders INNER JOIN users ON orders.user_id = users.id WHERE orders.order_id = :order_id";
+		$query = "SELECT orders.order_id ,orders.contact, orders.address, orders.total, orders.ordered_date, users.firstname, users.lastname, users.email FROM orders INNER JOIN users ON orders.user_id = users.id WHERE orders.order_id = :order_id";
 		$statement = $this->connect()->prepare($query);
 		$statement->execute($data);
 		return $statement->fetch();

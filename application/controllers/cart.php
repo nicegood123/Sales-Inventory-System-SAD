@@ -10,7 +10,7 @@ if (!isset($_SESSION['is_logged_in'])) {
 }
 
 //update product quantity
-$cart_id = 0;
+$cart_id = 1;
 $quantity = null;
 
 if (isset($_GET['plus'])) { $cart_id = $_GET['plus']; }
@@ -30,7 +30,7 @@ if (isset($_GET['plus'])) {
 
 $data = ['quantity' => $quantity, 'cart_id' => $cart_id];
 
-$query = "UPDATE cart SET quantity = :quantity WHERE cart_id = :cart_id AND cart_code = 0";
+$query = "UPDATE cart SET quantity = :quantity WHERE cart_id = :cart_id AND cart_code = 1";
 $function->update($query, $data);
 
 //delete products

@@ -14,7 +14,7 @@ try {
 			$quantity = 1;
 
 			$data = [
-				'cart_code' => 0,
+				'cart_code' => 1,
 				'user_id' => $user_id,
 				'product_id' => $product_id
 			];
@@ -26,9 +26,10 @@ try {
 					'product_id' => $product_id,
 					'user_id' => $user_id,
 					'quantity' => $quantity,
+					'cart_code' => 1
 				];
 
-				$query = "INSERT INTO cart (user_id, product_id, quantity) VALUES (:user_id, :product_id, :quantity)";
+				$query = "INSERT INTO cart (user_id, product_id, quantity, cart_code) VALUES (:user_id, :product_id, :quantity, :cart_code)";
 				$function->insert($query, $data);
 
 			} else {
@@ -40,7 +41,7 @@ try {
 					'product_id' => $product_id
 				];
 
-				$query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 0 AND user_id = :user_id AND product_id = :product_id";
+				$query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 1 AND user_id = :user_id AND product_id = :product_id";
 				$function->update($query, $data);
 
 			}

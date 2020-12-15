@@ -80,8 +80,8 @@
 									<span>PHP <?php echo number_format($cart_subtotal['subtotal'], 2); ?></span>
 								</p>
 								<p class="d-flex">
-									<span>Delivery</span>
-									<span>PHP <?php echo number_format($delivery, 2); ?></span>
+									<span>VAT</span>
+									<span>PHP <?php echo number_format($vat, 2); ?></span>
 								</p>
 								<hr>
 								<p class="d-flex total-price">

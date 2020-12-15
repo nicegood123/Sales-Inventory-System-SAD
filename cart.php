@@ -50,10 +50,9 @@
                   $total = 0;
                   $subtotal = 0;
                   $status = null;
-                  $delivery = 790;
                   $user_id = $_SESSION['user']['id'];
 
-                  $query = "SELECT cart.cart_id, products.id, products.name, products.photo, products.price, cart.quantity, (products.price * cart.quantity) AS 'total' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = ".$user_id." AND cart_code = 0 GROUP BY cart.product_id ORDER BY cart_id";
+                  $query = "SELECT cart.cart_id, products.id, products.name, products.photo, products.price, cart.quantity, (products.price * cart.quantity) AS 'total' FROM cart INNER JOIN products ON cart.product_id = products.id WHERE user_id = ".$user_id." AND cart_code = 1 GROUP BY cart.product_id ORDER BY cart_id";
 
                   $rows = $function->selectAll($query);
                   foreach ($rows as $row) { ?>
@@ -109,10 +108,11 @@
 
                   //Cart Total
                 if (empty($subtotal)) {
-                  $delivery = 0.00;
+                  $vat = 0.00;
                   $status = 'hidden=""';
                 }
-                $total = $subtotal + $delivery;
+                $vat = $subtotal * 0.12;
+                $total = $subtotal + $vat;
 
               } catch (PDOException $e) {
                 echo "There is some problem in connection: " . $e->getMessage();
@@ -142,8 +142,8 @@
             <span><?php echo 'PHP ' . number_format($subtotal, 2); ?></span>
           </p>
           <p class="d-flex">
-            <span>Delivery</span>
-            <span><?php echo 'PHP ' . number_format($delivery, 2); ?></span>
+            <span>VAT</span>
+            <span><?php echo 'PHP ' . number_format($vat, 2); ?></span>
           </p>
           <hr>
           <p class="d-flex total-price">

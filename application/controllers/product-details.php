@@ -18,7 +18,7 @@ if (isset($_SESSION['is_logged_in'])) {
 	if (isset($_POST['add-to-cart'])) {
 
 		$data = [
-			'cart_code' => 0,
+			'cart_code' => 1,
 			'user_id' => $user_id,
 			'product_id' => $product_id
 		];
@@ -45,7 +45,7 @@ if (isset($_SESSION['is_logged_in'])) {
 				'product_id' => $product_id
 			];
 
-			$query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 0 AND user_id = :user_id AND product_id = :product_id";
+			$query = "UPDATE cart SET quantity = :quantity WHERE cart_code = 1 AND user_id = :user_id AND product_id = :product_id";
 			$function->update($query, $data);
 
 		}

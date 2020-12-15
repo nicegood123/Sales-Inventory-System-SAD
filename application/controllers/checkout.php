@@ -15,10 +15,10 @@ try {
 	$user = $function->getData('users', 'id', $user_id);
 
 	//Cart Total
-	$delivery = 790.00;
 	$data = ['user_id' => $user_id];
 	$cart_subtotal = $function->getCartSubtotal($data);
-	$total = $cart_subtotal['subtotal'] + $delivery;
+	$vat = $cart_subtotal['subtotal'] * 0.12;
+	$total = $cart_subtotal['subtotal'] + $vat;
 
 	if (isset($_POST['place-order'])) {
 
@@ -46,7 +46,7 @@ try {
 		$cart_code = $order_id;
 		$data = ['cart_code' => $cart_code, 'user_id' => $user_id];
 
-		$query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 0";
+		$query = "UPDATE cart SET cart_code = :cart_code WHERE user_id = :user_id AND cart_code = 1";
 		$function->update($query, $data);
 
 		//Update Product QuantityInStock

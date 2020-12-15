@@ -11,7 +11,7 @@ if (isset($_SESSION['is_logged_in'])) {
 	$user_id = $_SESSION['user']['id'];
 
 	$data = ['user_id' => $user_id];
-	$query = "SELECT * FROM cart WHERE user_id = :user_id AND cart_code = 0 GROUP BY product_id";
+	$query = "SELECT * FROM cart WHERE user_id = :user_id AND cart_code = 1 GROUP BY product_id";
 	$total_items = $function->itemCount($query, $data);
 }
 

@@ -50,12 +50,8 @@
                     <p><span>Order ID </span><b><?php echo $order_summary['order_id']; ?></b></p>
                     <p><span>Payment Method </span><b>Cash on Delivery</b></p>
                     <p><span>Date Ordered </span><b><?php echo $order_summary['ordered_date']; ?></b></p>
-                  </div>
-                  <div class="col-md-6">
-                   <p><span>Subotal </span><b><?php echo 'PHP ' . number_format($order_summary['subtotal'], 2); ?></b></p>
-                   <p><span>Delivery </span><b><?php echo 'PHP ' . number_format($order_summary['delivery'], 2); ?></b></p>
                    <p><span>Total </span><b>PHP <?php echo number_format($order_summary['total'], 2); ?></b></p>
-                 </div>
+                  </div>
                </div>
              </div>
            </div>
@@ -74,7 +70,6 @@
               <th>Product</th>
               <th>Price</th>
               <th>Quantity</th>
-              <th>Total</th>
             </tr>
           </thead>
           <tbody>
@@ -103,7 +98,6 @@
                       <input type="text" class="form-control" value="<?php echo $row['quantity']; ?>" disabled>
                     </div>
                   </td>
-                  <td class="total">PHP <?php echo number_format($row['total'], 2); ?></td>
                 </tr>
 
                 <?php
