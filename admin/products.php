@@ -204,7 +204,7 @@ if (isset($_POST['edit-product'])) {
                         <div class="form-group">
                             <label class="form-label">Description</label>
                             <div class="form-line">
-                                <textarea rows="1" name="description" placeholder="Enter product description"
+                                <textarea rows="1" name="description" placeholder="Enter description"
                                     class="form-control no-resize auto-growth"
                                     style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
                             </div>
@@ -212,13 +212,13 @@ if (isset($_POST['edit-product'])) {
                         <div class="form-group">
                             <label class="form-label">Price</label>
                             <div class="form-line">
-                                <input type="text" name="price" placeholder="Enter product price" class="form-control">
+                                <input type="text" name="price" placeholder="Enter price" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Quantity</label>
                             <div class="form-line">
-                                <input type="text" name="quantity" placeholder="Enter product  quantity"
+                                <input type="text" name="quantity" placeholder="Enter quantity"
                                     class="form-control">
                             </div>
                         </div>
