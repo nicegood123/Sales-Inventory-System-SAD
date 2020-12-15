@@ -149,7 +149,7 @@ if (isset($_POST['pay-cash'])  || isset($_POST['pay-check'])) {
 
 </head>
 
-<body class="theme-red">
+<body class="theme-teal">
   <!-- Page Loader -->
   <?php include 'sections/page-loader.php'; ?>
 

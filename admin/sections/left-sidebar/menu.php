@@ -1,3 +1,9 @@
+            <?php
+            
+            $nav_status = '';
+            
+            ?>
+
             <div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
@@ -19,7 +25,7 @@
                             <span>Products</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="<?php echo $nav_status; ?>">
                         <a href="suppliers.php">
                             <i class="material-icons">local_shipping</i>
                             <span>Suppliers</span>

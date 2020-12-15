@@ -45,7 +45,7 @@ if (isset($_POST['edit-category'])) {
 
 </head>
 
-<body class="theme-red">
+<body class="theme-teal">
     <!-- Page Loader -->
     <?php include 'sections/page-loader.php'; ?>
 

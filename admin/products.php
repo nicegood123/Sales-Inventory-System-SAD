@@ -71,7 +71,7 @@ if (isset($_POST['edit-product'])) {
 
 </head>
 
-<body class="theme-red">
+<body class="theme-teal">
     <!-- Page Loader -->
     <?php include 'sections/page-loader.php'; ?>
 
@@ -145,7 +145,9 @@ if (isset($_POST['edit-product'])) {
                                             <td><?php echo $row['supplier_name']; ?></td>
                                             <td><?php echo $row['category_name']; ?></td>
                                             <td class="text-center js-sweetalert">
-                                                <button type="button" class="btn btn-info btn-xs waves-effect">
+                                                <button data-toggle="modal"
+                                                    data-target="#infoModal_<?php echo $row['id']; ?>"
+                                                    class="btn btn-info btn-xs waves-effect">
                                                     <i class="material-icons" style="font-size:1.6rem;"
                                                         data-toggle="modal" data-target="#infoModal">info_outline</i>
                                                 </button>
@@ -263,7 +265,7 @@ if (isset($_POST['edit-product'])) {
 
     <!-- scripts -->
     <?php include 'sections/scripts.php'; ?>
-    
+
 </body>
 
 </html>
