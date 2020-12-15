@@ -1,4 +1,12 @@
-<?php require 'application/controllers/add-to-cart.php'; ?>
+<?php
+
+	require 'application/controllers/add-to-cart.php';
+
+	if ($_SESSION['user']['type'] == 1) {
+		header('Location:admin');
+	}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -49,28 +57,28 @@
 							$query = "SELECT * FROM products ORDER BY date_added DESC LIMIT 6";
 							$rows = $function->selectAll($query);
 							foreach ($rows as $row) { ?>
-								<div class="item">
-									<div class="product">
-										<a href="product-details.php?product_id=<?php echo $row['id']; ?>" class="img-prod">
-											<img class="img-fluid" src="images/products/<?php echo $row['photo']; ?>" alt="No Image Available">
-											<span class="status">New</span>
-										</a>
-										<div class="text pt-3 px-3">
-											<h3>
-												<a href="product-details.php?product_id=<?php echo $row['id']; ?>"><?php echo $row['name']; ?></a>
-											</h3>
-											<div class="d-flex">
-												<div class="pricing">
-													<p class="price">
-														<span class="price-sale">PHP <?php echo number_format($row['price'], 2); ?></span>
-													</p>
-												</div>
-											</div>
+						<div class="item">
+							<div class="product">
+								<a href="product-details.php?product_id=<?php echo $row['id']; ?>" class="img-prod">
+									<img class="img-fluid" src="images/products/<?php echo $row['photo']; ?>" alt="No Image Available">
+									<span class="status">New</span>
+								</a>
+								<div class="text pt-3 px-3">
+									<h3>
+										<a href="product-details.php?product_id=<?php echo $row['id']; ?>"><?php echo $row['name']; ?></a>
+									</h3>
+									<div class="d-flex">
+										<div class="pricing">
+											<p class="price">
+												<span class="price-sale">PHP <?php echo number_format($row['price'], 2); ?></span>
+											</p>
 										</div>
 									</div>
 								</div>
+							</div>
+						</div>
 
-								<?php
+						<?php
 							} 
 						} catch (PDOException $e) {
 							echo "There is some problem in connection: " . $e->getMessage();
@@ -90,7 +98,7 @@
 					<h1 class="big">Products</h1>
 					<h2 class="mb-4">Our Products</h2>
 				</div>
-			</div>    		
+			</div>
 		</div>
 		<div class="container-fluid">
 
@@ -104,7 +112,7 @@
 
 				foreach ($rows as $row) { ?>
 
-					<?php
+			<?php
 					$name = $row['name'];
 					$name = strlen($name) > 25 ? substr($name,0,25) . "..." :   $name;
 					if ($counter % 4 == 0) {
@@ -112,34 +120,34 @@
 					}
 					?>
 
-					<div class="col-sm col-md-6 col-lg ftco-animate">
-						<div class="product">
+			<div class="col-sm col-md-6 col-lg ftco-animate">
+				<div class="product">
 
-							<a href="product-details.php?product_id=<?php echo $row['id']; ?>" class="img-prod">
-								<img class="img-fluid" src="images/products/<?php echo $row['photo']?>" alt="No Image Available">
-							</a>
-							<div class="text py-3 px-3">
-								<h3>
-									<a href="product-details.php?product_id=<?php echo $row['id']; ?>"><?php echo $name; ?></a>
-								</h3>
-								<div class="d-flex">
-									<div class="pricing">
-										<p class="price">
-											<span>PHP <?php echo number_format($row['price'], 2); ?></span>
-										</p>
-									</div>
-								</div>
-								<hr>
-								<p class="bottom-area justify-content-center d-flex">
-									<a href="index.php?add-to-cart=<?php echo $row['id']; ?>" class="add-to-cart">
-										<span>Add to cart <i class="ion-ios-add ml-1"></i></span>
-									</a>
+					<a href="product-details.php?product_id=<?php echo $row['id']; ?>" class="img-prod">
+						<img class="img-fluid" src="images/products/<?php echo $row['photo']?>" alt="No Image Available">
+					</a>
+					<div class="text py-3 px-3">
+						<h3>
+							<a href="product-details.php?product_id=<?php echo $row['id']; ?>"><?php echo $name; ?></a>
+						</h3>
+						<div class="d-flex">
+							<div class="pricing">
+								<p class="price">
+									<span>PHP <?php echo number_format($row['price'], 2); ?></span>
 								</p>
 							</div>
 						</div>
+						<hr>
+						<p class="bottom-area justify-content-center d-flex">
+							<a href="index.php?add-to-cart=<?php echo $row['id']; ?>" class="add-to-cart">
+								<span>Add to cart <i class="ion-ios-add ml-1"></i></span>
+							</a>
+						</p>
 					</div>
+				</div>
+			</div>
 
-					<?php
+			<?php
 					if ($counter % 4 == 3) {
 						echo '</div>';
 					}
@@ -166,7 +174,7 @@
 				<div class="col-md-12 heading-section text-center ftco-animate">
 					<h1 class="big">CEO</h1>
 				</div>
-			</div>    		
+			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-8 ftco-animate">
 					<div class="row ftco-animate">
@@ -205,12 +213,13 @@
 	<?php include 'sections/scripts.php'; ?>
 
 	<script>
-			//Top navigation bar add/remove class
-			//To change the navigation style
-			$(document).ready(function(){
-				$("#ftco-navbar").removeClass("ftco-navbar-light-2");
-			});
-		</script>
+		//Top navigation bar add/remove class
+		//To change the navigation style
+		$(document).ready(function () {
+			$("#ftco-navbar").removeClass("ftco-navbar-light-2");
+		});
+	</script>
 
-	</body>
-	</html>
+</body>
+
+</html>
