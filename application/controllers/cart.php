@@ -10,7 +10,6 @@ if (!isset($_SESSION['is_logged_in'])) {
 }
 
 //update product quantity
-$cart_id = 1;
 $quantity = null;
 
 if (isset($_GET['plus'])) { $cart_id = $_GET['plus']; }

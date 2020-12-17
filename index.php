@@ -56,7 +56,7 @@
 						<?php
 
 						try {
-							$query = "SELECT * FROM products ORDER BY date_added DESC LIMIT 6";
+							$query = "SELECT * FROM products WHERE QuantityInStock > 0 ORDER BY date_added DESC LIMIT 6";
 							$rows = $function->selectAll($query);
 							foreach ($rows as $row) { ?>
 						<div class="item">
@@ -108,7 +108,7 @@
 
 			try {
 
-				$query = "SELECT * FROM products LIMIT 8";
+				$query = "SELECT * FROM products WHERE QuantityInStock > 0 LIMIT 8";
 				$rows = $function->selectAll($query);
 				$counter = 0;
 

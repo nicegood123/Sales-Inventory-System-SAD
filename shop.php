@@ -78,13 +78,13 @@
                         $product_name = $_POST['search-product'];
                         if (!empty($product_name)) {
                             $hide = 'hidden';
-                            $query = "SELECT * FROM products WHERE name LIKE '%" . $product_name . "%'";
+                            $query = "SELECT * FROM products WHERE QuantityInStock > 0 AND name LIKE '%" . $product_name . "%'";
                         } else {
                             $page = 1;
-                            $query = "SELECT * FROM products LIMIT ". $total_no_per_page ."";
+                            $query = "SELECT * FROM products WHERE QuantityInStock > 0 LIMIT ". $total_no_per_page ."";
                         }
                     } else {
-                        $query = "SELECT * FROM products LIMIT ". $startAt .", ". $total_no_per_page ."";
+                        $query = "SELECT * FROM products WHERE QuantityInStock > 0 LIMIT ". $startAt .", ". $total_no_per_page ."";
                     }
 
                     $rows = $function->selectAll($query);

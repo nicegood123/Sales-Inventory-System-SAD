@@ -59,6 +59,7 @@ if (isset($_POST['add-order'])) {
   
   }
 
+
 if (isset($_POST['delete-order'])) {
 	$email = $_SESSION['user']['email'];
 	$password = hash("sha512", $_POST['password']);
@@ -260,25 +261,7 @@ if (isset($_POST['delete-order'])) {
                                                                     <td>PHP
                                                                         <?php echo number_format($row['price'], 2); ?>
                                                                     </td>
-                                                                    <td class="text-center">
-                                                                        <div class="btn-group">
-                                                                            <a href="#"
-                                                                                class="btn btn-info btn-xs waves-effect">
-                                                                                <i class="material-icons"
-                                                                                    style="font-size:1.6rem;">remove</i>
-                                                                            </a>
-                                                                            <a class="btn btn-default btn-xs m-r-5">
-                                                                                <i class="material-icons"
-                                                                                    style="font-size:1.6rem;"></i>
-                                                                                <?php echo $row['quantity']; ?>
-                                                                            </a>
-                                                                            <a href="#"
-                                                                                class="btn btn-info btn-xs waves-effect">
-                                                                                <i class="material-icons"
-                                                                                    style="font-size:1.6rem;">add</i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </td>
+                                                                    <td class="text-center"><?php echo $row['quantity']; ?></td>
                                                                     <td>PHP
                                                                         <?php echo number_format($row['total'], 2); ?>
                                                                     </td>
