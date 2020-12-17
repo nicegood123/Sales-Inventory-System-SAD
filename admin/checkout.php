@@ -244,10 +244,16 @@ if (isset($_POST['pay-cash'])  || isset($_POST['pay-check'])) {
           </div>
         </div>
 
-        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+        <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" id="invoice">
           <div class="card">
             <div class="header">
-              <h2>Invoice</h2>
+              <h2>Invoice
+                <button type="button" id="print-invoice" class="btn bg-blue-grey btn-xs pull-right waves-effect">
+                  <i class="material-icons">print</i>
+                </button>
+
+              </h2>
+
             </div>
             <div class="body">
               <div class="row clearfix">
@@ -289,7 +295,7 @@ if (isset($_POST['pay-cash'])  || isset($_POST['pay-check'])) {
         } else { $cash_status = ''; }
         ?>
 
-        <!-- CASH Payment -->
+        <!-- Cash Payment -->
         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12" <?php echo $cash_status; ?>>
           <div class="card">
             <div class="header">
@@ -346,7 +352,7 @@ if (isset($_POST['pay-cash'])  || isset($_POST['pay-check'])) {
                 <label for="check_number" class="m-t-10">Check Number</label>
                 <div class="form-group">
                   <div class="form-line">
-                    <input type="text" name="check-number" id="check_number" class="form-control"
+                    <input type="text" name="check-number" id="check-number" class="form-control"
                       placeholder="Enter check number" required>
                   </div>
                 </div>
@@ -413,13 +419,24 @@ if (isset($_POST['pay-cash'])  || isset($_POST['pay-check'])) {
 
       });
 
-      $('#discounts-input').bind('input', function () {
+      $('#discounts-input, #check-number, #check-amount').bind('input', function () {
         this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');
       });
 
       $("#pay").submit(function (e) {
         e.preventDefault();
         alert("Form submitted");
+      });
+
+      $('#print-invoice').on('click', function () {
+        $('body').css('visibility', 'hidden');
+        var print_invoice = $('#invoice').css('visibility', 'visible');
+        window.print();
+
+        // var newWindow = window.open('redir2.html');
+        // newWindow.focus();
+        // newWindow.print(print_invoice);
+        // newWindow.close();
       });
 
     });

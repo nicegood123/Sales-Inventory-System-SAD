@@ -134,7 +134,7 @@ if (isset($_POST['edit-product'])) {
                                                     height="70" />
                                             </td>
                                             <td><?php echo strlen($row['name']) > 15 ? substr($row['name'],0,15) . "..." : $row['name']; ?></td>
-                                            <td><?php echo $row['price']; ?></td>
+                                            <td>PHP <?php echo number_format($row['price'], 2); ?></td>
                                             <td>
                                                 <span
                                                     class="label bg-<?php echo ($row['QuantityInStock']<=30) ? 'red' : 'green'; ?>">

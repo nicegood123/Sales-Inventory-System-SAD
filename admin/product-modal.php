@@ -61,7 +61,7 @@
                         <div class="col-sm-10">
                             <div class="form-line">
                                 <input type="text" class="form-control" id="price"
-                                    value="<?php echo $product['price']; ?>" disabled>
+                                    value="<?php echo number_format($product['price'], 2); ?>" disabled>
                             </div>
                         </div>
                     </div>

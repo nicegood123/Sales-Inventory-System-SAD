@@ -73,7 +73,7 @@
 
                         $query = "SELECT orders.order_id, CONCAT(users.firstname, ' ', users.lastname) AS 'name',
                         orders.discount, orders.total, orders.payment_method, orders.ordered_date FROM orders
-                        INNER JOIN users ON orders.user_id = users.id WHERE ordered_date >=(CURDATE() - INTERVAL 3 DAY)";
+                        INNER JOIN users ON orders.user_id = users.id WHERE ordered_date <=(CURDATE() - INTERVAL 3 DAY)";
 
                         $rows = $function->selectAll($query);
                         foreach ($rows as $row) { ?>
