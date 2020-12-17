@@ -59,10 +59,17 @@ if (isset($_POST['add-order'])) {
   
   }
 
-  //delete products
-if (isset($_GET['delete_id'])) {
+if (isset($_POST['delete-order'])) {
+	$email = $_SESSION['user']['email'];
+	$password = hash("sha512", $_POST['password']);
+	$data = ['email' => $email, 'password' => $password];
 
-    $cart_id = $_GET['delete_id'];
+	$query = "SELECT * FROM users WHERE email=:email AND password=:password";
+	$result = $function->signin($query, $data);
+
+	if (!empty($result)) {
+
+    $cart_id = $_GET['cart_id'];
 
     $cart = $function->getData('cart', 'cart_id', $cart_id);
 
@@ -74,8 +81,26 @@ if (isset($_GET['delete_id'])) {
     $data = ['cart_id' => $cart_id];
     $query = "DELETE FROM cart WHERE cart_id = :cart_id";
     $function->delete($query, $data);
+      
+  $_SESSION['message'] = 
+  '<div class="alert alert-success alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+    Removed successfully
+  </div>';
 
-  }
+	} else {
+        $_SESSION['message'] = 
+        '<div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          Wrong Password
+        </div>';
+
+	}
+}
 
 
 ?>
@@ -258,11 +283,14 @@ if (isset($_GET['delete_id'])) {
                                                                         <?php echo number_format($row['total'], 2); ?>
                                                                     </td>
                                                                     <td class="text-center">
-                                                                        <a href="?delete_id=<?php echo $row['cart_id']; ?>"" class="
-                                                                            btn btn-danger btn-xs waves-effect">
+                                                                        <a data-toggle="modal"
+                                                                            data-target="#deleteModal_<?php echo $row['cart_id']; ?>"
+                                                                            class="btn btn-danger btn-xs waves-effect">
                                                                             <i class="material-icons"
                                                                                 style="font-size:1.6rem;">clear</i>
                                                                         </a>
+                                                                        <?php include '../application/controllers/admin/remove-order.php'; ?>
+
                                                                     </td>
                                                                 </tr>
 

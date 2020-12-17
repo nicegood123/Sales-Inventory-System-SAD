@@ -133,7 +133,7 @@ if (isset($_POST['edit-product'])) {
                                                 <img src="../images/products/<?php echo $row['photo']; ?>" width="70"
                                                     height="70" />
                                             </td>
-                                            <td><?php echo $row['name']; ?></td>
+                                            <td><?php echo strlen($row['name']) > 15 ? substr($row['name'],0,15) . "..." : $row['name']; ?></td>
                                             <td><?php echo $row['price']; ?></td>
                                             <td>
                                                 <span
@@ -198,7 +198,7 @@ if (isset($_POST['edit-product'])) {
                         <div class="form-group">
                             <div class="form-line">
                                 <input type="text" id="name" name="name" placeholder="Enter product name"
-                                    class="form-control">
+                                    class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -206,20 +206,20 @@ if (isset($_POST['edit-product'])) {
                             <div class="form-line">
                                 <textarea rows="1" name="description" placeholder="Enter description"
                                     class="form-control no-resize auto-growth"
-                                    style="overflow: hidden; overflow-wrap: break-word; height: 35px;"></textarea>
+                                    style="overflow: hidden; overflow-wrap: break-word; height: 35px;" required></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Price</label>
                             <div class="form-line">
-                                <input type="text" name="price" placeholder="Enter price" class="form-control">
+                                <input type="text" name="price" placeholder="Enter price" class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Quantity</label>
                             <div class="form-line">
                                 <input type="text" name="quantity" placeholder="Enter quantity"
-                                    class="form-control">
+                                    class="form-control" required>
                             </div>
                         </div>
                         <div class="form-group">

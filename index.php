@@ -2,8 +2,10 @@
 
 	require 'application/controllers/add-to-cart.php';
 
-	if ($_SESSION['user']['type'] == 1) {
-		header('Location:admin');
+	if (isset($_SESSION['is_logged_in'])) {
+		if ($_SESSION['user']['type'] == 1) {
+			header('Location:admin');
+		}
 	}
 
 ?>
