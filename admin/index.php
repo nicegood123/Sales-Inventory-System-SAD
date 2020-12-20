@@ -22,8 +22,6 @@ $no_of_orders = $function->rowCount('orders WHERE ordered_date <=(CURDATE() - IN
 $no_of_users = $function->rowCount('users WHERE id != -1');
 
 
-
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -57,8 +55,6 @@ $no_of_users = $function->rowCount('users WHERE id != -1');
             <div class="block-header">
                 <h2>DASHBOARD</h2>
             </div>
-
-
 
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -111,9 +107,6 @@ $no_of_users = $function->rowCount('users WHERE id != -1');
                 </div>
             </div>
 
-
-
-
             <div class="row clearfix">
                 <!-- Products Below 30(Quantity) -->
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
@@ -156,8 +149,6 @@ $no_of_users = $function->rowCount('users WHERE id != -1');
                         </div>
                     </div>
                 </div>
-
-
 
                 <!-- Salable Products -->
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
@@ -204,9 +195,6 @@ $no_of_users = $function->rowCount('users WHERE id != -1');
                 </div>
                 <!-- #END# Answered Tickets -->
             </div>
-
-
-
 
         </div>
     </section>

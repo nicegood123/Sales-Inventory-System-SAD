@@ -95,8 +95,7 @@ class functions extends connection {
 
 	}
 
-	function totalSales() {
-		$query = "SELECT SUM(total) as 'total_sales' FROM orders";
+	function totalSales($query) {
 		$statement = $this->connect()->query($query);
 		return $statement->fetchAll();
 

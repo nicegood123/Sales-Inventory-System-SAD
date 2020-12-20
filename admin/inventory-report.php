@@ -3,6 +3,17 @@
     require_once '../application/config/functions.php';
     
     session_start();
+
+    $query = "SELECT products.id, products.name, products.price, products.QuantityInStock, products.QuantitySold, supplier.name as 'supplier_name', category.name as 'category_name', products.date_added FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id WHERE products.QuantityInStock > 0";
+
+    if (isset($_POST['search'])) {
+        if (isset($_POST['date-from']) && isset($_POST['date-to'])) {
+
+        $query .= " AND DATE_FORMAT(products.date_added,'%m/%d/%Y') BETWEEN '".$_POST['date-from']."' AND '".$_POST['date-to'] . '23:59:00' ."'";
+        }
+  
+      }
+
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +56,27 @@
                             <h2>List of Products</h2>
                         </div>
                         <div class="body">
+                            <form method="post">
+                                <div class="row clearfix">
+                                    <div class="col-lg-6 col-md-3 col-sm-3 col-xs-6">
+                                        <div class="input-daterange input-group" id="bs_datepicker_range_container">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="date-from"
+                                                    placeholder="Date start...">
+                                            </div>
+                                            <span class="input-group-addon">to</span>
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" name="date-to"
+                                                    placeholder="Date end...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                        <button type="submit" name="search"
+                                            class="btn bg-blue-grey btn-sm waves-effect">Search</button>
+                                    </div>
+                                </div>
+                            </form>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable"
                                     id="products-table">
@@ -65,7 +97,6 @@
                                         <?php
                                     try {
 
-                                        $query = "SELECT products.id, products.name, products.price, products.QuantityInStock, products.QuantitySold, supplier.name as 'supplier_name', category.name as 'category_name', products.date_added FROM products INNER JOIN category ON products.category_id = category.id INNER JOIN supplier ON products.supplier_id = supplier.id WHERE products.QuantityInStock > 0";
                                         $rows = $function->selectAll($query);
                                         foreach ($rows as $row) { ?>
 
